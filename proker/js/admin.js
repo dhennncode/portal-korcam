@@ -42,7 +42,7 @@ function enterAdmin() {
 
 function initAdminShell() {
   renderKop({
-    title: "Koordinator Kecamatan Kedewan",
+    eyebrow: "Koordinator Kecamatan Kedewan",
     headlineTitle: "Panel Korcam",
     tagline: "Khusus internal — dashboard monitoring &amp; kelola proker kelompok",
   });

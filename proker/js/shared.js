@@ -2,25 +2,22 @@
 // SHARED: kop surat + api helpers, dipakai index.html & admin.html
 // ==========================================================
 
-function renderKop({ title, headlineTitle, tagline, showHamburger }) {
+function renderKop({ eyebrow, headlineTitle, tagline, showStrukturLink }) {
   const el = document.getElementById("kop-mount");
   if (!el) return;
   el.innerHTML = `
-    <div class="kop-wrap">
-      <img class="kop-seal-bg" src="img/logo-ikip.png" alt="" />
-      ${showHamburger ? `<button class="hamburger-btn" id="hamburger-btn" aria-label="Buka menu Struktur Korcam"><span></span></button>` : ""}
-      <div class="kop">
-        <img class="kop-logo" src="img/logo-ikip.png" alt="Logo IKIP PGRI Bojonegoro" />
-        <div class="kop-text-block">
-          <div class="kop-title">${title}</div>
-        </div>
-      </div>
-      <div class="kop-rule"></div>
-      <div class="kop-headline">
-        <h1>${headlineTitle}</h1>
-        <div class="tagline">${tagline}</div>
-      </div>
-    </div>
+    <div class="topbar"><a class="back-link" href="../index.html">&larr; Menu Utama</a></div>
+    <header class="kop">
+      ${showStrukturLink ? `
+      <a class="kop-struktur-btn" href="../struktur.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Struktur Korcam
+      </a>` : ""}
+      <p class="kop-eyebrow">${eyebrow}</p>
+      <h1 class="kop-title">${headlineTitle}</h1>
+      <p class="kop-sub">${tagline}</p>
+      <div class="kop-stripe"></div>
+    </header>
   `;
 }
 

@@ -276,27 +276,6 @@ function initForm() {
 // ==========================================================
 // DRAWER: STRUKTUR KORCAM
 // ==========================================================
-function initDrawer() {
-  const drawer = document.getElementById("drawer");
-  const overlay = document.getElementById("drawer-overlay");
-  const openBtn = document.getElementById("hamburger-btn");
-  const closeBtn = document.getElementById("drawer-close");
-
-  function openDrawer() {
-    drawer.classList.add("open");
-    overlay.classList.add("show");
-    drawer.setAttribute("aria-hidden", "false");
-  }
-  function closeDrawer() {
-    drawer.classList.remove("open");
-    overlay.classList.remove("show");
-    drawer.setAttribute("aria-hidden", "true");
-  }
-  if (openBtn) openBtn.addEventListener("click", openDrawer);
-  if (closeBtn) closeBtn.addEventListener("click", closeDrawer);
-  if (overlay) overlay.addEventListener("click", closeDrawer);
-}
-
 function showError(msg) {
   const box = document.getElementById("error-box");
   box.textContent = "\u26A0 " + msg;
@@ -311,13 +290,11 @@ function hideError() {
 // ==========================================================
 document.addEventListener("DOMContentLoaded", () => {
   renderKop({
-    title: "Koordinator Kecamatan Kedewan",
+    eyebrow: "Koordinator Kecamatan Kedewan",
     headlineTitle: "Monitoring Proker &amp; Kendala",
     tagline: "Kartu Laporan Mingguan — Kelompok KKM Kecamatan Kedewan",
-    showHamburger: true,
+    showStrukturLink: true,
   });
-  initDrawer();
-  try { renderStruktur(); } catch (e) { console.error("renderStruktur gagal:", e); }
   initForm();
   goToStep(0);
   loadData();

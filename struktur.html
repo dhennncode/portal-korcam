@@ -22,13 +22,15 @@
     font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
   }
   .back-link{
-    position:fixed; top:10px; left:10px; z-index:9999;
+    display:inline-flex; align-items:center; gap:6px;
     font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:600;
     color:var(--navy-900); background:var(--gold-100); border:1px solid var(--gold-500);
-    padding:6px 12px; border-radius:999px; text-decoration:none;
-    box-shadow:0 4px 10px rgba(11,31,77,.15);
+    padding:7px 14px; border-radius:999px; text-decoration:none;
+    box-shadow:0 4px 10px rgba(11,31,77,.15); transition:transform .15s ease, background .15s ease;
   }
-  .wrap{ max-width:900px; margin:0 auto; padding:48px 20px 72px; }
+  .back-link:hover{ background:var(--gold-300); transform:translateY(-1px); }
+  .wrap{ max-width:900px; margin:0 auto; padding:22px 20px 72px; }
+  .topbar{ margin-bottom:22px; }
 
   .kop{
     background:linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
@@ -77,8 +79,8 @@
 </style>
 </head>
 <body>
-  <a class="back-link" href="index.html">&larr; Menu Utama</a>
   <div class="wrap">
+    <div class="topbar"><a class="back-link" href="index.html">&larr; Menu Utama</a></div>
 
     <header class="kop">
       <p class="kop-eyebrow">Panitia KKM · IKIP PGRI Bojonegoro</p>

@@ -14,37 +14,19 @@
 </head>
 
 <body>
-<a href="../index.html" style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr; Menu Utama</a>
-
 
     <div class="topo-layer" aria-hidden="true"></div>
 
     <div class="app-shell">
 
-        <!-- ===== KARTU TUGAS SURVEYOR (Header / Signature element) ===== -->
-        <header class="duty-card">
-            <div class="duty-card__stripe"></div>
-            <div class="duty-card__body">
-                <div class="duty-card__crest" aria-hidden="true">
-                    <!-- Taruh file logo KKN kamu (misal logo-kkn.png) di folder yang sama
-                         dengan index.html. Gambar ini otomatis menggantikan ikon default. -->
-                    <img class="duty-card__crest-img" src="logo-kkn.png" alt=""
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <svg style="display:none" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" />
-                        <path d="M8 30C13 24 18 20 24 20C30 20 35 24 40 30" stroke="currentColor" stroke-width="1.5"
-                            stroke-linecap="round" />
-                        <path d="M8 24C13 18 18 14 24 14C30 14 35 18 40 24" stroke="currentColor" stroke-width="1.2"
-                            stroke-linecap="round" opacity="0.6" />
-                        <circle cx="24" cy="24" r="3" fill="currentColor" />
-                    </svg>
-                </div>
-                <div class="duty-card__text">
-                    <p class="duty-card__eyebrow">Kartu Tugas Lapangan &mdash; KKM IKIP PGRI Bojonegoro</p>
-                    <h1 class="duty-card__title">Survey Potensi<br>Kecamatan Kedewan</h1>
-                    <p class="duty-card__sub">Pendataan objek potensi desa &middot; by BUNGDED</p>
-                </div>
-            </div>
+        <div class="topbar"><a class="back-link" href="../index.html">&larr; Menu Utama</a></div>
+
+        <!-- ===== KOP / LETTERHEAD (Header / Signature element) ===== -->
+        <header class="kop">
+            <p class="kop-eyebrow">Kartu Tugas Lapangan &mdash; KKM IKIP PGRI Bojonegoro</p>
+            <h1 class="kop-title">Survey Potensi Kecamatan Kedewan</h1>
+            <p class="kop-sub">Pendataan objek potensi desa &middot; by BUNGDED</p>
+            <div class="kop-stripe"></div>
         </header>
 
         <!-- ===== STEPPER ===== -->

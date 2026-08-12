@@ -82,6 +82,20 @@ body {
 a { color: inherit; }
 
 /* =========================================================
+   TOPBAR / BACK LINK
+========================================================= */
+.topbar { max-width: 760px; margin: 14px auto 0; padding: 0 16px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  color: var(--navy-900); background: var(--gold-100); border: 1px solid var(--gold-500);
+  padding: 7px 14px; border-radius: 999px; text-decoration: none;
+  box-shadow: 0 4px 10px rgba(11,31,77,.15);
+  transition: transform .15s ease, background .15s ease;
+}
+.back-link:hover { background: var(--gold-300); transform: translateY(-1px); }
+
+/* =========================================================
    HEADER / KOP SURAT — sama seperti web Proker & Survey
 ========================================================= */
 .site-header {
@@ -89,7 +103,7 @@ a { color: inherit; }
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: 14px 16px 0;
+  padding: 10px 16px 0;
 }
 
 .header-inner {

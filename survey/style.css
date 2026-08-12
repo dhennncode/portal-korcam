@@ -98,81 +98,65 @@ body {
 }
 
 /* ==========================================================================
-   Kartu Tugas — header / signature element
+   Kop / letterhead — selaras dengan Portal KKM & Struktur Korcam
    ========================================================================== */
-.duty-card {
+.topbar { margin: 0 0 16px; }
+.back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-size: 12px; font-weight: 600;
+    color: var(--navy-900); background: var(--gold-100); border: 1px solid var(--gold-500);
+    padding: 7px 14px; border-radius: 999px; text-decoration: none;
+    box-shadow: 0 4px 10px rgba(11,31,77,.15);
+    transition: transform .15s ease, background .15s ease;
+}
+.back-link:hover { background: var(--gold-300); transform: translateY(-1px); }
+
+.kop {
     position: relative;
     border-radius: var(--radius-lg);
     overflow: hidden;
     background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
     box-shadow: var(--shadow-pop);
     margin-bottom: 22px;
+    padding: 28px 26px 24px;
 }
 
-.duty-card__stripe {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 10px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--gold-300), var(--gold-600));
-}
-
-.duty-card__body {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-    padding: 26px 26px 24px 22px;
-}
-
-.duty-card__crest {
-    flex: none;
-    width: 46px;
-    height: 46px;
+.kop::after {
+    content: "";
+    position: absolute; right: -40px; top: -40px; width: 200px; height: 200px;
     border-radius: 50%;
-    border: 1px solid rgba(232, 199, 102, 0.55);
-    color: var(--gold-300);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: radial-gradient(circle, rgba(232,199,102,.18), transparent 70%);
+    pointer-events: none;
 }
 
-.duty-card__crest svg {
-    width: 26px;
-    height: 26px;
-}
-
-.duty-card__crest-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
-}
-
-.duty-card__eyebrow {
-    margin: 0 0 6px;
+.kop-eyebrow {
+    margin: 0 0 10px;
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--gold-300);
 }
 
-.duty-card__title {
+.kop-title {
     margin: 0 0 8px;
     font-family: var(--font-display);
     font-weight: 800;
     font-size: 24px;
-    line-height: 1.18;
+    line-height: 1.2;
     color: #fff;
     letter-spacing: -0.01em;
 }
 
-.duty-card__sub {
+.kop-sub {
     margin: 0;
     font-size: 13px;
     color: rgba(231, 236, 250, 0.82);
+}
+
+.kop-stripe {
+    height: 3px; margin-top: 20px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold-300), transparent 70%);
 }
 
 /* ==========================================================================
@@ -255,6 +239,20 @@ body {
     width: 0%;
     background: linear-gradient(90deg, var(--navy-700), var(--gold-500));
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 480px) {
+    .stepper__label { display: none; }
+    .stepper__item[data-state="active"] .stepper__label {
+        display: block;
+        position: absolute;
+        top: 100%;
+        margin-top: 4px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+    .stepper__item { position: relative; }
+    .stepper { margin-bottom: 30px; }
 }
 
 /* ==========================================================================
@@ -1015,7 +1013,7 @@ body {
         padding-top: 40px;
     }
 
-    .duty-card__title {
+    .kop-title {
         font-size: 28px;
     }
 
