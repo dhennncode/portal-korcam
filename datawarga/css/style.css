@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+/* =========================================================
+   DESIGN TOKENS — selaras dengan Portal KKM Kedewan
+   (sama persis dengan hub/index.html, struktur.html, survey & proker)
+========================================================= */
+:root {
+  --navy-900: #0B1F4D;
+  --navy-800: #12296B;
+  --navy-700: #1E40AF;
+  --navy-500: #3B5BC4;
+  --navy-100: #E7ECFA;
+
+  --gold-600: #A6801C;
+  --gold-500: #C9A227;
+  --gold-300: #E8C766;
+  --gold-100: #FBF3DA;
+
+  --ink-900: #10142B;
+  --ink-600: #4A5170;
+  --ink-400: #7A82A0;
+  --ink-200: #C7CCDE;
+
+  --paper: #F4F6FB;
+  --white: #ffffff;
+  --border: #E3E7F2;
+
+  --success: #157A4F;
+  --success-bg: #E7F6EE;
+  --success-border: #B7E4CB;
+
+  --error: #B23A3A;
+  --error-bg: #FCECEC;
+  --error-border: #F1C3C3;
+
+  --warn: #9A6B0A;
+  --warn-bg: #FBF1DC;
+  --warn-border: #EED9A6;
+
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Inter', monospace;
+
+  --radius-sm: 10px;
+  --radius: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+
+  --shadow-card: 0 1px 2px rgba(11, 31, 77, 0.04), 0 12px 28px -14px rgba(11, 31, 77, 0.18);
+  --shadow-pop: 0 20px 50px -16px rgba(11, 31, 77, 0.35);
+
+  /* alias — supaya admin.css lama tetap kompatibel */
+  --color-bg: var(--paper);
+  --color-surface: var(--white);
+  --color-border: var(--border);
+  --color-text: var(--ink-900);
+  --color-text-muted: var(--ink-600);
+  --color-primary: var(--navy-700);
+  --color-primary-hover: var(--navy-900);
+  --color-primary-soft: var(--navy-100);
+  --color-danger: var(--error);
+  --color-success: var(--success);
+  --color-warning: var(--gold-600);
+  --radius-legacy: var(--radius);
+  --shadow-sm: var(--shadow-card);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink-900);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--gold-100); color: var(--ink-900); }
+a { color: inherit; }
+
+/* =========================================================
+   HEADER / KOP SURAT — sama seperti web Proker & Survey
+========================================================= */
+.site-header {
+  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 14px 16px 0;
+}
+
+.header-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 26px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-pop);
+  transition: padding 0.25s ease, border-radius 0.25s ease, box-shadow 0.25s ease;
+}
+
+.header-inner::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,199,102,.18), transparent 70%);
+  pointer-events: none;
+}
+
+.site-header.is-collapsed .header-inner { padding: 12px 20px; border-radius: 16px; }
+.site-header.is-collapsed .brand-logo { width: 38px; height: 38px; }
+.site-header.is-collapsed .brand-badge { max-height: 0; opacity: 0; margin: 0; overflow: hidden; }
+.site-header.is-collapsed .brand-subtitle { max-height: 0; opacity: 0; overflow: hidden; }
+
+.brand-logo {
+  width: 54px; height: 54px; flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: contain;
+  background: var(--white);
+  padding: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: width 0.25s ease, height 0.25s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-text { display: flex; flex-direction: column; gap: 3px; line-height: 1.3; min-width: 0; flex: 1; position: relative; z-index: 1; }
+
+.brand-badge {
+  display: inline-block; width: fit-content;
+  font-family: var(--font-mono);
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--gold-300); opacity: 0.95;
+  transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+  max-height: 20px;
+}
+
+.brand-title {
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18.5px;
+  letter-spacing: -0.01em;
+}
+
+.brand-subtitle {
+  color: var(--navy-100);
+  font-size: 11.5px;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+
+.header-link {
+  color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 700;
+  font-family: var(--font-body);
+  border: 1px solid rgba(255,255,255,0.3); border-radius: 999px;
+  padding: 9px 16px; white-space: nowrap; background: rgba(255,255,255,0.08);
+  cursor: pointer; position: relative; z-index: 1;
+}
+.header-link:hover { background: rgba(255,255,255,0.18); }
+.header-link-btn { font-family: inherit; }
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+.page { max-width: 760px; margin: 0 auto; padding: 8px 16px 60px; }
+
+.intro { text-align: center; margin: 30px 0 22px; }
+.intro h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 23px;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  color: var(--ink-900);
+}
+.intro p { color: var(--ink-600); margin: 0; font-size: 13px; }
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 26px 24px 24px;
+  margin-bottom: 20px;
+}
+
+fieldset { border: none; padding: 0; margin: 0 0 30px; }
+fieldset:last-of-type { margin-bottom: 0; }
+
+legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 700; color: var(--ink-900);
+  padding: 0 0 14px; width: 100%;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+legend::before {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  flex-shrink: 0;
+}
+
+.field-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field-wide { grid-column: 1 / -1; }
+
+label, .field-label {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink-900);
+}
+.req { color: var(--error); }
+
+input[type="text"], input[type="email"], input[type="password"], input[type="number"],
+select, textarea {
+  font: inherit; font-family: var(--font-body); padding: 11px 13px;
+  border: 1px solid var(--ink-200); border-radius: var(--radius);
+  background: var(--paper); color: var(--ink-900); width: 100%;
+  font-size: 13.5px;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--navy-700); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.14);
+}
+textarea { resize: vertical; min-height: 74px; }
+input[type="file"] { padding: 0; border: none; background: none; }
+
+.check-block { margin-bottom: 18px; }
+.check-block:last-child { margin-bottom: 0; }
+.sub-field {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--navy-100);
+  border: 1px solid var(--border);
+}
+
+.checkbox-row { display: flex; align-items: center; gap: 9px; font-weight: 500; font-size: 13.5px; text-transform: none; letter-spacing: 0; font-family: var(--font-body); color: var(--ink-900); }
+.checkbox-row input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--navy-700); flex-shrink: 0; }
+
+.radio-pill-group { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.radio-pill {
+  display: flex; align-items: center; gap: 7px; padding: 10px 18px;
+  border: 1px solid var(--ink-200); border-radius: var(--radius); cursor: pointer;
+  font-weight: 600; font-size: 13px; font-family: var(--font-body); background: var(--paper);
+  text-transform: none; letter-spacing: 0; color: var(--ink-600);
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.radio-pill input { accent-color: var(--navy-700); }
+.radio-pill:has(input:checked) { border-color: var(--navy-700); background: var(--navy-100); color: var(--navy-900); }
+
+/* =========================================================
+   UPLOAD FOTO
+========================================================= */
+.upload-pill { position: relative; }
+.upload-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 2; }
+.upload-pill-label {
+  display: flex; align-items: center; gap: 9px; padding: 12px 14px;
+  border: 1.5px dashed var(--ink-200); border-radius: var(--radius); cursor: pointer;
+  color: var(--ink-600); font-size: 13px; font-family: var(--font-body);
+  background: var(--paper);
+  transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.upload-pill:hover .upload-pill-label { border-color: var(--navy-500); color: var(--navy-700); background: var(--navy-100); }
+.upload-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--navy-100); color: var(--navy-700);
+  font-weight: 800; font-size: 13px; flex-shrink: 0;
+}
+.upload-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   TOMBOL
+========================================================= */
+.btn-primary, .btn-secondary, .btn-outline-danger {
+  font: inherit; font-family: var(--font-body); font-weight: 700; border-radius: var(--radius); padding: 13px 22px;
+  cursor: pointer; border: none; font-size: 14px;
+}
+.btn-primary { background: linear-gradient(135deg, var(--navy-700), var(--navy-800)); color: #fff; width: 100%; box-shadow: 0 8px 20px -8px rgba(30,64,175,.55); }
+.btn-primary:hover { background: linear-gradient(135deg, var(--navy-800), var(--navy-900)); }
+.btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-secondary { background: #fff; color: var(--ink-900); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--navy-700); color: var(--navy-700); background: var(--navy-100); }
+.btn-outline-danger { background: #fff; color: var(--error); border: 1.5px solid var(--error-border); }
+.btn-outline-danger:hover { background: var(--error-bg); }
+
+.form-message {
+  padding: 13px 16px; border-radius: var(--radius); font-size: 13px; margin-bottom: 18px;
+  font-family: var(--font-body);
+}
+.form-message.success { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+.form-message.error { background: var(--error-bg); color: var(--error); border: 1px solid var(--error-border); }
+
+.site-footer { text-align: center; color: var(--ink-400); font-size: 12px; padding: 30px 20px 44px; font-family: var(--font-mono); }
+
+.hint-text { color: var(--ink-600); font-size: 13px; }
+
+.badge {
+  display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  font-family: var(--font-mono); letter-spacing: 0.02em;
+}
+.badge-desa { background: var(--navy-100); color: var(--navy-700); }
+.badge-kelompok { background: var(--gold-100); color: var(--gold-600); border: 1px solid var(--gold-500); }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 640px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .header-inner { flex-wrap: nowrap; padding: 18px 18px 16px; }
+  .brand-title { font-size: 16px; }
+  .intro h1 { font-size: 19px; }
+  .card { padding: 20px 16px 18px; border-radius: 14px; }
+  legend { font-size: 14px; }
+}
+
+@media (max-width: 400px) {
+  .brand-logo { width: 44px; height: 44px; }
+  .radio-pill { padding: 9px 14px; font-size: 12.5px; }
+}

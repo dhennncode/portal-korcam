@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>Lapor Mingguan KKM — Kecamatan Kedewan</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="page-public">
+<a href="../index.html" style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr; Menu Utama</a>
+
+
+<div id="kop-mount"></div>
+
+<div class="container">
+
+  <div id="error-box"></div>
+
+  <!-- ===================== LAPOR MINGGUAN (STEPPER) ===================== -->
+  <div class="tab-panel active" id="panel-lapor">
+    <div class="card">
+      <h2>Formulir Laporan Mingguan</h2>
+      <p class="sub">Diisi tiap koordinator desa / kelompok setiap minggu. Data langsung masuk ke database Korcam.</p>
+
+      <div class="stepper-nav" id="stepper-nav"></div>
+
+      <form id="laporan-form">
+
+        <!-- STEP A: KELOMPOK -->
+        <div class="step-panel active" data-step="0">
+          <div class="field-row">
+            <div class="field">
+              <label>Minggu Ke- *</label>
+              <input type="number" id="input-minggu" min="1" placeholder="1" required />
+            </div>
+            <div class="field">
+              <label>Desa *</label>
+              <select id="input-desa" required></select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Nama Koordinator / Kelompok *</label>
+            <select id="input-kelompok" required></select>
+          </div>
+        </div>
+
+        <!-- STEP B: PROKER -->
+        <div class="step-panel" data-step="1">
+          <p class="sub" style="margin-bottom:14px;">Geser persentase progres untuk tiap proker kelompok Anda minggu ini.</p>
+          <div id="proker-list"></div>
+          <div id="proker-empty" class="muted" style="display:none;">
+            Belum ada proker terdaftar untuk kelompok ini. Hubungi Korcam agar didaftarkan lebih dulu di panel admin.
+          </div>
+        </div>
+
+        <!-- STEP C: PENDATAAN & KENDALA -->
+        <div class="step-panel" data-step="2">
+          <div class="field">
+            <label>Progres Pendataan Sosial Ekonomi</label>
+            <div class="range-row">
+              <input type="range" id="input-progres-pendataan" min="0" max="100" step="5" value="0" />
+              <span class="range-value" id="progres-pendataan-value">0%</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Kendala (jika ada)</label>
+            <textarea id="input-kendala" rows="3" placeholder="Ceritakan kendala di lapangan..."></textarea>
+          </div>
+          <div class="field">
+            <label>Butuh Bantuan Korcam?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="bantuan" value="Tidak" checked onclick="document.getElementById('input-bantuan').value='Tidak'" /> Tidak</label>
+              <label><input type="radio" name="bantuan" value="Ya" onclick="document.getElementById('input-bantuan').value='Ya'" /> Ya</label>
+            </div>
+            <input type="hidden" id="input-bantuan" value="Tidak" />
+          </div>
+        </div>
+
+        <!-- STEP D: REVIEW & KIRIM -->
+        <div class="step-panel" data-step="3">
+          <div class="card" style="background:var(--paper-50); box-shadow:none;">
+            <h2 style="font-size:14px;">Ringkasan Laporan</h2>
+            <div id="review-box" class="muted"></div>
+          </div>
+        </div>
+
+        <div class="step-footer">
+          <button type="button" class="btn btn-outline" id="btn-prev">&larr; Kembali</button>
+          <button type="button" class="btn btn-primary" id="btn-next">Lanjut &rarr;</button>
+          <button type="submit" class="btn btn-primary" id="submit-btn" style="display:none;">Kirim Laporan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== DRAWER: STRUKTUR KORCAM ===================== -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h2>Struktur Korcam</h2>
+    <button class="drawer-close" id="drawer-close" aria-label="Tutup menu">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <p class="sub" style="margin:-4px 0 14px;">Susunan penanggung jawab pelaksanaan KKM IKIP PGRI Bojonegoro Tahun 2026 di tingkat kecamatan.</p>
+    <div class="struktur-grid" id="struktur-grid"></div>
+    <h3>Wilayah Koordinasi</h3>
+    <div id="desa-chip-list"></div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

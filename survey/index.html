@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Survey Potensi Kecamatan Kedewan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<a href="../index.html" style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr; Menu Utama</a>
+
+
+    <div class="topo-layer" aria-hidden="true"></div>
+
+    <div class="app-shell">
+
+        <!-- ===== KARTU TUGAS SURVEYOR (Header / Signature element) ===== -->
+        <header class="duty-card">
+            <div class="duty-card__stripe"></div>
+            <div class="duty-card__body">
+                <div class="duty-card__crest" aria-hidden="true">
+                    <!-- Taruh file logo KKN kamu (misal logo-kkn.png) di folder yang sama
+                         dengan index.html. Gambar ini otomatis menggantikan ikon default. -->
+                    <img class="duty-card__crest-img" src="logo-kkn.png" alt=""
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <svg style="display:none" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M8 30C13 24 18 20 24 20C30 20 35 24 40 30" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <path d="M8 24C13 18 18 14 24 14C30 14 35 18 40 24" stroke="currentColor" stroke-width="1.2"
+                            stroke-linecap="round" opacity="0.6" />
+                        <circle cx="24" cy="24" r="3" fill="currentColor" />
+                    </svg>
+                </div>
+                <div class="duty-card__text">
+                    <p class="duty-card__eyebrow">Kartu Tugas Lapangan &mdash; KKM IKIP PGRI Bojonegoro</p>
+                    <h1 class="duty-card__title">Survey Potensi<br>Kecamatan Kedewan</h1>
+                    <p class="duty-card__sub">Pendataan objek potensi desa &middot; by BUNGDED</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== STEPPER ===== -->
+        <nav class="stepper" aria-label="Progres pengisian formulir">
+            <ol class="stepper__list" id="stepperList">
+                <li class="stepper__item" data-step="1"><span class="stepper__marker">A</span><span
+                        class="stepper__label">Surveyor</span></li>
+                <li class="stepper__item" data-step="2"><span class="stepper__marker">B</span><span
+                        class="stepper__label">Lokasi</span></li>
+                <li class="stepper__item" data-step="3"><span class="stepper__marker">C</span><span
+                        class="stepper__label">Objek</span></li>
+                <li class="stepper__item" data-step="4"><span class="stepper__marker">D</span><span
+                        class="stepper__label">Titik GPS</span></li>
+                <li class="stepper__item" data-step="5"><span class="stepper__marker">E</span><span
+                        class="stepper__label">Deskripsi</span></li>
+                <li class="stepper__item" data-step="6"><span class="stepper__marker">F</span><span
+                        class="stepper__label">Foto</span></li>
+                <li class="stepper__item" data-step="7"><span class="stepper__marker">G</span><span
+                        class="stepper__label">Kirim</span></li>
+            </ol>
+            <div class="stepper__bar">
+                <div class="stepper__bar-fill" id="stepperFill"></div>
+            </div>
+        </nav>
+
+        <main>
+            <form id="surveyForm" novalidate>
+
+                <!-- STEP A — Data Surveyor -->
+                <section class="form-card" data-step-panel="1" aria-labelledby="h-step1">
+                    <header class="form-card__head">
+                        <span class="form-card__index">A</span>
+                        <div>
+                            <h2 id="h-step1">Data Surveyor</h2>
+                            <p>Identitas mahasiswa yang bertugas mengambil data ini.</p>
+                        </div>
+                    </header>
+
+                    <div class="field">
+                        <label for="namaSurveyor">Nama Surveyor <span class="req">*</span></label>
+                        <input type="text" id="namaSurveyor" name="nama_surveyor" placeholder="Nama lengkap sesuai KTM"
+                            autocomplete="name">
+                        <p class="field__error" id="err-namaSurveyor"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="noWhatsapp">Nomor WhatsApp <span class="req">*</span></label>
+                        <input type="tel" id="noWhatsapp" inputmode="numeric" name="no_whatsapp"
+                            placeholder="Contoh: 081234567890" autocomplete="tel">
+                        <p class="field__hint">Hanya angka, tanpa spasi atau tanda baca.</p>
+                        <p class="field__error" id="err-noWhatsapp"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="kelompokKkm">Kelompok KKM <span class="req">*</span></label>
+                        <input type="text" id="kelompokKkm" name="kelompok_kkm"
+                            placeholder="Contoh: Kelompok 3 - Desa Kedewan">
+                        <p class="field__error" id="err-kelompokKkm"></p>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <span></span>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Lokasi<svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP B — Data Lokasi -->
+                <section class="form-card" data-step-panel="2" hidden aria-labelledby="h-step2">
+                    <header class="form-card__head">
+                        <span class="form-card__index">B</span>
+                        <div>
+                            <h2 id="h-step2">Data Lokasi</h2>
+                            <p>Wilayah administratif tempat objek berada.</p>
+                        </div>
+                    </header>
+
+                    <div class="field">
+                        <label for="desa">Desa <span class="req">*</span></label>
+                        <div class="select-wrap">
+                            <select id="desa" name="desa">
+                                <option value="" disabled selected>Pilih desa&hellip;</option>
+                                <option value="Beji">Beji</option>
+                                <option value="Hargomulyo">Hargomulyo</option>
+                                <option value="Kawengan">Kawengan</option>
+                                <option value="Kedewan">Kedewan</option>
+                                <option value="Wonocolo">Wonocolo</option>
+                            </select>
+                        </div>
+                        <p class="field__error" id="err-desa"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="dusun">Dusun <span class="opt">(opsional)</span></label>
+                        <input type="text" id="dusun" name="dusun" placeholder="Nama dusun, jika ada">
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Objek<svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP C — Data Objek -->
+                <section class="form-card" data-step-panel="3" hidden aria-labelledby="h-step3">
+                    <header class="form-card__head">
+                        <span class="form-card__index">C</span>
+                        <div>
+                            <h2 id="h-step3">Data Objek</h2>
+                            <p>Objek potensi desa yang sedang didata.</p>
+                        </div>
+                    </header>
+
+                    <div class="field">
+                        <label for="namaObjek">Nama Objek <span class="req">*</span></label>
+                        <input type="text" id="namaObjek" name="nama_objek"
+                            placeholder="Contoh: Sumur Tua Peninggalan Belanda">
+                        <p class="field__error" id="err-namaObjek"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="kategori">Kategori <span class="req">*</span></label>
+                        <div class="select-wrap">
+                            <select id="kategori" name="kategori">
+                                <option value="" disabled selected>Pilih kategori&hellip;</option>
+                                <option value="Bangunan">Bangunan</option>
+                                <option value="Industri">Industri</option>
+                                <option value="Olahraga">Olahraga</option>
+                                <option value="Pariwisata Seni dan Budaya">Pariwisata Seni dan Budaya</option>
+                                <option value="Pemerintahan">Pemerintahan</option>
+                                <option value="Pendidikan">Pendidikan</option>
+                                <option value="Peribadatan">Peribadatan</option>
+                                <option value="Sarana Kesehatan">Sarana Kesehatan</option>
+                                <option value="Sosial">Sosial</option>
+                                <option value="Transportasi">Transportasi</option>
+                                <option value="Perekonomian/Perdagangan">Perekonomian/Perdagangan</option>
+                                <option value="Pemakaman">Pemakaman</option>
+                                <option value="Permukiman">Permukiman</option>
+                                <option value="Pertahanan dan Keamanan">Pertahanan dan Keamanan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                        <p class="field__error" id="err-kategori"></p>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Titik GPS<svg
+                                class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP D — Lokasi GPS -->
+                <section class="form-card" data-step-panel="4" hidden aria-labelledby="h-step4">
+                    <header class="form-card__head">
+                        <span class="form-card__index">D</span>
+                        <div>
+                            <h2 id="h-step4">Titik Koordinat GPS</h2>
+                            <p>Wajib diambil langsung dari lokasi objek berada.</p>
+                        </div>
+                    </header>
+
+                    <div class="gps-box">
+                        <button type="button" class="btn btn--gold" id="btnAmbilLokasi">
+                            <svg class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 2v2.2M10 15.8V18M2 10h2.2M15.8 10H18" stroke="currentColor"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                                <circle cx="10" cy="10" r="4.2" stroke="currentColor" stroke-width="1.6" />
+                            </svg>
+                            Ambil Lokasi Saya
+                        </button>
+
+                        <div class="gps-status" id="gpsStatus" data-state="idle">
+                            <div class="gps-status__icon" id="gpsIcon"></div>
+                            <div class="gps-status__text">
+                                <p class="gps-status__title" id="gpsTitle">Lokasi belum diambil</p>
+                                <p class="gps-status__desc" id="gpsDesc">Tekan tombol di atas saat kamu sudah berada
+                                    tepat di lokasi objek.</p>
+                            </div>
+                        </div>
+
+                        <div class="gps-coords" id="gpsCoords" hidden>
+                            <div class="gps-coords__item">
+                                <span class="gps-coords__label">Latitude</span>
+                                <span class="gps-coords__value" id="latValue">&mdash;</span>
+                            </div>
+                            <div class="gps-coords__item">
+                                <span class="gps-coords__label">Longitude</span>
+                                <span class="gps-coords__value" id="lngValue">&mdash;</span>
+                            </div>
+                        </div>
+                        <p class="field__error" id="err-gps"></p>
+
+                        <div class="field">
+                            <label for="linkLokasi">Link Lokasi Google Maps <span class="req">*</span></label>
+                            <input type="text" id="linkLokasi" name="link_lokasi"
+                                placeholder="Tempel link dari aplikasi Google Maps di sini">
+                            <p class="field__hint">Buka Google Maps di HP, tekan lama titik lokasi objek, lalu ketuk
+                                "Bagikan" dan salin (copy) link-nya ke sini.</p>
+                            <p class="field__error" id="err-linkLokasi"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Deskripsi<svg
+                                class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP E — Deskripsi -->
+                <section class="form-card" data-step-panel="5" hidden aria-labelledby="h-step5">
+                    <header class="form-card__head">
+                        <span class="form-card__index">E</span>
+                        <div>
+                            <h2 id="h-step5">Deskripsi Objek</h2>
+                            <p>Jelaskan potensi, kondisi, dan permasalahan objek.</p>
+                        </div>
+                    </header>
+
+                    <div class="field">
+                        <label for="potensi">Deskripsi <span class="req">*</span></label>
+                        <textarea id="potensi" name="potensi" rows="4"
+                            placeholder="Jelaskan objek ini dan potensinya bagi desa"></textarea>
+                        <p class="field__error" id="err-potensi"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="kondisi">Kondisi Saat Ini <span class="req">*</span></label>
+                        <textarea id="kondisi" name="kondisi" rows="3"
+                            placeholder="Kondisi fisik objek saat disurvei"></textarea>
+                        <p class="field__error" id="err-kondisi"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="permasalahan">Permasalahan <span class="opt">(opsional)</span></label>
+                        <textarea id="permasalahan" name="permasalahan" rows="3"
+                            placeholder="Kendala atau masalah yang ditemukan, jika ada"></textarea>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Foto<svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP F — Upload Foto -->
+                <section class="form-card" data-step-panel="6" hidden aria-labelledby="h-step6">
+                    <header class="form-card__head">
+                        <span class="form-card__index">F</span>
+                        <div>
+                            <h2 id="h-step6">Dokumentasi Foto</h2>
+                            <p>1&ndash;3 foto, format JPG/PNG, maksimal 5MB per foto.</p>
+                        </div>
+                    </header>
+
+                    <div class="photo-rule">
+                        <svg viewBox="0 0 20 20" fill="none">
+                            <rect x="2.5" y="6" width="15" height="8" rx="1.4" stroke="currentColor"
+                                stroke-width="1.4" />
+                        </svg>
+                        <div>
+                            <p class="photo-rule__title">Foto wajib landscape (horizontal), rasio 16:9</p>
+                            <p class="photo-rule__desc">Putar HP kamu ke posisi mendatar saat memotret objek, jangan
+                                potret dalam posisi tegak/potret.</p>
+                        </div>
+                    </div>
+
+                    <div class="dropzone" id="dropzone" tabindex="0" role="button"
+                        aria-label="Pilih foto untuk diunggah">
+                        <input type="file" id="fotoInput" accept=".jpg,.jpeg,.png,image/jpeg,image/png" multiple hidden>
+                        <svg class="dropzone__icon" viewBox="0 0 40 40" fill="none">
+                            <rect x="6" y="10" width="28" height="22" rx="3" stroke="currentColor" stroke-width="1.6" />
+                            <circle cx="14" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6" />
+                            <path d="M8 27l8-8 5 5 6-6 5 5" stroke="currentColor" stroke-width="1.6"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="dropzone__title">Ketuk untuk pilih foto</p>
+                        <p class="dropzone__sub">atau ambil langsung dari kamera HP</p>
+                    </div>
+
+                    <p class="field__error" id="err-foto"></p>
+
+                    <div class="photo-grid" id="photoGrid"></div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Ringkasan<svg
+                                class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP G — Ringkasan & Kirim -->
+                <section class="form-card" data-step-panel="7" hidden aria-labelledby="h-step7">
+                    <header class="form-card__head">
+                        <span class="form-card__index">G</span>
+                        <div>
+                            <h2 id="h-step7">Ringkasan &amp; Kirim</h2>
+                            <p>Periksa kembali data sebelum dikirim ke server.</p>
+                        </div>
+                    </header>
+
+                    <dl class="summary" id="summaryList"></dl>
+
+                    <div class="submit-banner" id="submitError" hidden>
+                        <svg viewBox="0 0 20 20" fill="none">
+                            <circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.4" />
+                            <path d="M10 6v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            <circle cx="10" cy="13.4" r="0.9" fill="currentColor" />
+                        </svg>
+                        <div>
+                            <p class="submit-banner__title">Pengiriman gagal</p>
+                            <p class="submit-banner__desc" id="submitErrorDesc"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
+                        <button type="submit" class="btn btn--primary btn--submit" id="btnSubmit">
+                            <span class="btn__label">Kirim Data Survey</span>
+                            <svg class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+
+            </form>
+        </main>
+
+        <footer class="page-footer">
+            <p>KKM Mahasiswa IKIP PGRI Bojonegoro &middot; Kecamatan Kedewan</p>
+        </footer>
+    </div>
+
+    <!-- ===== OVERLAY: LOADING ===== -->
+    <div class="overlay" id="loadingOverlay" hidden>
+        <div class="overlay__card">
+            <div class="spinner" aria-hidden="true"></div>
+            <p class="overlay__title" id="loadingTitle">Mengirim data&hellip;</p>
+            <p class="overlay__desc" id="loadingDesc">Mohon tunggu, jangan tutup halaman ini.</p>
+        </div>
+    </div>
+
+    <!-- ===== OVERLAY: SUKSES ===== -->
+    <div class="overlay" id="successOverlay" hidden>
+        <div class="overlay__card overlay__card--success">
+            <div class="success-check" aria-hidden="true">
+                <svg viewBox="0 0 52 52">
+                    <circle class="success-check__circle" cx="26" cy="26" r="24" fill="none" />
+                    <path class="success-check__mark" fill="none" d="M14 27l7 7 17-17" />
+                </svg>
+            </div>
+            <p class="overlay__title">Data berhasil dikirim</p>
+            <p class="overlay__desc">Terima kasih, data objek sudah tersimpan di server. Silakan lanjutkan ke objek
+                berikutnya.</p>
+            <button type="button" class="btn btn--primary" id="btnEntriBaru">Tambah Data Baru</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="script.js" defer></script>
+</body>
+
+</html>

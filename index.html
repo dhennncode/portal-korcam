@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Portal KKM — Kecamatan Kedewan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#0B1F4D; --navy-800:#12296B; --navy-700:#1E40AF; --navy-500:#3B5BC4; --navy-100:#E7ECFA;
+    --gold-600:#A6801C; --gold-500:#C9A227; --gold-300:#E8C766; --gold-100:#FBF3DA;
+    --ink-900:#10142B; --ink-600:#4A5170; --ink-400:#7A82A0; --ink-200:#C7CCDE;
+    --paper:#F4F6FB; --white:#fff;
+    --font-display:'Plus Jakarta Sans','Inter',sans-serif;
+    --font-mono:'JetBrains Mono','Inter',monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; min-height:100vh; background:var(--paper); color:var(--ink-900);
+    font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
+    position:relative; overflow-x:hidden;
+  }
+  /* subtle topographic backdrop, echoes surveyor "peta wilayah" motif */
+  .topo{ position:fixed; inset:0; z-index:0; opacity:.5; pointer-events:none;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(59,91,196,.10), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(201,162,39,.12), transparent 42%);
+  }
+  .wrap{ position:relative; z-index:1; max-width:960px; margin:0 auto; padding:48px 20px 72px; }
+
+  /* ===== kop / letterhead, consistent with the two other apps ===== */
+  .kop{
+    background:linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
+    color:var(--paper); border-radius:20px; padding:30px 28px 26px;
+    box-shadow:0 20px 50px -16px rgba(11,31,77,.35); position:relative; overflow:hidden;
+  }
+  .kop::after{ content:""; position:absolute; right:-40px; top:-40px; width:180px; height:180px;
+    border-radius:50%; background:radial-gradient(circle, rgba(232,199,102,.18), transparent 70%); }
+  .kop-struktur-btn{
+    position:absolute; top:24px; right:26px; z-index:2;
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:.02em;
+    color:var(--navy-900); background:var(--gold-300); text-decoration:none;
+    padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 6px 14px -6px rgba(0,0,0,.35); transition:transform .15s ease, background .15s ease;
+  }
+  .kop-struktur-btn:hover{ background:var(--gold-100); transform:translateY(-1px); }
+  .kop-struktur-btn svg{ width:13px; height:13px; }
+  @media(max-width:560px){
+    .kop-struktur-btn{ position:static; margin-bottom:14px; }
+  }
+  .kop-eyebrow{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold-300); margin:0 0 10px; }
+  .kop-title{ font-family:var(--font-display); font-weight:800; font-size:26px; line-height:1.25; margin:0 0 6px; }
+  .kop-sub{ font-size:13.5px; color:var(--navy-100); margin:0; max-width:44ch; }
+  .kop-stripe{ height:3px; margin-top:22px; border-radius:2px;
+    background:linear-gradient(90deg, var(--gold-300), transparent 70%); }
+
+  /* ===== menu section ===== */
+  .menu-label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-400); margin:38px 2px 14px; }
+
+  .grid{ display:grid; grid-template-columns:1fr; gap:16px; }
+  @media(min-width:720px){ .grid{ grid-template-columns:repeat(3,1fr); } }
+
+  .card{
+    display:flex; flex-direction:column; gap:14px; text-decoration:none; color:inherit;
+    background:var(--white); border:1px solid var(--ink-200); border-radius:16px; padding:22px;
+    box-shadow:0 1px 2px rgba(11,31,77,.04); transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  }
+  .card:hover, .card:focus-visible{
+    transform:translateY(-3px); border-color:var(--navy-500);
+    box-shadow:0 16px 32px -18px rgba(11,31,77,.35);
+    outline:none;
+  }
+  .card:focus-visible{ box-shadow:0 0 0 3px var(--gold-300), 0 16px 32px -18px rgba(11,31,77,.35); }
+
+  .card-letter{
+    width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:800; font-size:15px; color:var(--navy-900);
+    background:var(--gold-100); border:1px solid var(--gold-300);
+  }
+  .card h2{ font-family:var(--font-display); font-size:16.5px; font-weight:700; margin:0; line-height:1.35; }
+  .card p{ font-size:13px; color:var(--ink-600); margin:0; line-height:1.55; flex-grow:1; }
+  .card-cta{ font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:.03em;
+    color:var(--navy-700); display:flex; align-items:center; gap:6px; }
+  .card-cta svg{ width:13px; height:13px; transition:transform .16s ease; }
+  .card:hover .card-cta svg{ transform:translateX(3px); }
+
+  .foot{ margin-top:44px; padding-top:18px; border-top:1px solid var(--ink-200);
+    font-size:12px; color:var(--ink-400); display:flex; flex-wrap:wrap; gap:8px 18px; justify-content:space-between; }
+  .foot span{ font-family:var(--font-mono); }
+
+  @media (prefers-reduced-motion: reduce){ .card{ transition:none; } .card:hover{ transform:none; } }
+</style>
+</head>
+<body>
+  <div class="topo" aria-hidden="true"></div>
+  <div class="wrap">
+
+    <header class="kop">
+      <a class="kop-struktur-btn" href="struktur.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Struktur Korcam
+      </a>
+      <p class="kop-eyebrow">Panitia KKM · IKIP PGRI Bojonegoro</p>
+      <h1 class="kop-title">Portal Digital KKM<br>Kecamatan Kedewan</h1>
+      <p class="kop-sub">Satu pintu masuk untuk tiga alat kerja lapangan Korcam, Kordes, dan kelompok KKM se-Kecamatan Kedewan.</p>
+      <div class="kop-stripe"></div>
+    </header>
+
+    <p class="menu-label">Pilih Menu</p>
+    <nav class="grid">
+
+      <a class="card" href="proker/index.html">
+        <span class="card-letter">A</span>
+        <h2>Lapor &amp; Monitoring Proker</h2>
+        <p>Struktur Korcam, lapor progres proker mingguan per kelompok, dan dashboard pemantauan (Google Sheets).</p>
+        <span class="card-cta">Buka halaman
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card" href="datawarga/index.html">
+        <span class="card-letter">B</span>
+        <h2>Data Rumah Warga</h2>
+        <p>Formulir pendataan kondisi rumah tangga per Desa &amp; Kelompok, lengkap unggah foto (Supabase) dan dashboard admin.</p>
+        <span class="card-cta">Buka halaman
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+      <a class="card" href="survey/index.html">
+        <span class="card-letter">C</span>
+        <h2>Survey Potensi Kecamatan</h2>
+        <p>Formulir survei potensi wilayah — ekonomi, sosial, dan infrastruktur — untuk pemetaan awal Kecamatan Kedewan.</p>
+        <span class="card-cta">Buka halaman
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+
+    </nav>
+
+    <div class="foot">
+      <span>KKM Kedewan · 2026</span>
+      <span>Tiap menu berjalan independen — data tidak digabung antar-sistem.</span>
+    </div>
+  </div>
+</body>
+</html>

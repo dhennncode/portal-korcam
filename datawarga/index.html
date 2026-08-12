@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Data Rumah Warga — Kecamatan Kedewan</title>
+  <link rel="stylesheet" href="../datawarga/css/style.css">
+</head>
+
+<body>
+  <a href="../index.html"
+    style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr;
+    Menu Utama</a>
+
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <img src="../datawarga/assets/logo-kkn.png" alt="Logo KKM Kedewan" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-badge">Kartu Tugas Lapangan &mdash; KKM IKIP PGRI Bojonegoro</span>
+        <strong class="brand-title">Data Rumah Warga</strong>
+        <small class="brand-subtitle">Pendataan kondisi rumah tangga &middot; Kecamatan Kedewan (5 Desa &middot; 10
+          Kelompok)</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <h1>Formulir Pendataan Kondisi Rumah Tangga</h1>
+      <p>KKM IKIP PGRI Bojonegoro &mdash; se-Kecamatan Kedewan</p>
+    </section>
+
+    <form id="survey-form" class="card" novalidate>
+
+      <!-- 0: DESA & KELOMPOK -->
+      <fieldset>
+        <legend>1. Lokasi Tugas</legend>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="desa_id">Desa <span class="req">*</span></label>
+            <select id="desa_id" name="desa_id" required>
+              <option value="" selected disabled>Memuat daftar desa...</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="kelompok_id">Kelompok <span class="req">*</span></label>
+            <select id="kelompok_id" name="kelompok_id" required disabled>
+              <option value="" selected disabled>Pilih desa terlebih dahulu</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 1-4: IDENTITAS -->
+      <fieldset>
+        <legend>2. Data Identitas Kepala Keluarga</legend>
+
+        <div class="field-grid">
+          <div class="field field-wide">
+            <label for="nama_kepala_keluarga">Nama Kepala Keluarga <span class="req">*</span></label>
+            <input type="text" id="nama_kepala_keluarga" name="nama_kepala_keluarga" required>
+          </div>
+
+          <div class="field">
+            <label for="nomor_kk">Nomor KK <span class="req">*</span></label>
+            <input type="text" id="nomor_kk" name="nomor_kk" inputmode="numeric" maxlength="16" required>
+          </div>
+
+          <div class="field">
+            <label for="nik">NIK <span class="req">*</span></label>
+            <input type="text" id="nik" name="nik" inputmode="numeric" maxlength="16" required>
+          </div>
+
+          <div class="field field-wide">
+            <label for="pekerjaan">Pekerjaan <span class="req">*</span></label>
+            <input type="text" id="pekerjaan" name="pekerjaan" placeholder="Contoh: Petani, Buruh, Wiraswasta" required>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 5: ALAMAT -->
+      <fieldset>
+        <legend>3. Alamat</legend>
+
+        <div class="field-grid">
+          <div class="field field-wide">
+            <label for="alamat">Alamat <span class="req">*</span></label>
+            <input type="text" id="alamat" name="alamat" placeholder="Nama jalan / gang / dusun" required>
+          </div>
+
+          <div class="field">
+            <label for="rt">RT <span class="req">*</span></label>
+            <input type="text" id="rt" name="rt" maxlength="3" required>
+          </div>
+
+          <div class="field">
+            <label for="rw">RW <span class="req">*</span></label>
+            <input type="text" id="rw" name="rw" maxlength="3" required>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 6-7: UPLOAD FOTO -->
+      <fieldset>
+        <legend>4. Upload Foto</legend>
+
+        <div class="field-grid">
+          <div class="field">
+            <span class="field-label">Foto KK <span class="req">*</span></span>
+            <div class="upload-pill">
+              <input type="file" id="foto_kk" name="foto_kk" accept="image/*" class="upload-input" required>
+              <label for="foto_kk" class="upload-pill-label">
+                <span class="upload-icon">&#8593;</span>
+                <span class="upload-text" id="foto_kk-filename">Pilih foto</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Foto Rumah <span class="req">*</span></span>
+            <div class="upload-pill">
+              <input type="file" id="foto_rumah" name="foto_rumah" accept="image/*" class="upload-input" required>
+              <label for="foto_rumah" class="upload-pill-label">
+                <span class="upload-icon">&#8593;</span>
+                <span class="upload-text" id="foto_rumah-filename">Pilih foto</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 8: DESIL -->
+      <fieldset>
+        <legend>5. Status Desil Kesejahteraan</legend>
+
+        <div class="check-block">
+          <label for="status_desil">Desil <span class="req">*</span></label>
+          <select id="status_desil" name="status_desil" required>
+            <option value="" selected disabled>Pilih status desil</option>
+            <option value="tidak_terdaftar">Tidak terdaftar</option>
+            <option value="1">Desil 1</option>
+            <option value="2">Desil 2</option>
+            <option value="3">Desil 3</option>
+            <option value="4">Desil 4</option>
+            <option value="5">Desil 5</option>
+            <option value="6">Desil 6</option>
+            <option value="7">Desil 7</option>
+            <option value="8">Desil 8</option>
+            <option value="9">Desil 9</option>
+            <option value="10">Desil 10</option>
+          </select>
+        </div>
+
+        <div class="sub-field" id="wrap-anak-ingin-kuliah" hidden>
+          <label class="checkbox-row">
+            <input type="checkbox" id="anak_ingin_kuliah" name="anak_ingin_kuliah">
+            Ada anak yang ingin kuliah
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- 9-11: KONDISI RUMAH TANGGA -->
+      <fieldset>
+        <legend>6. Kondisi Rumah Tangga</legend>
+
+        <div class="check-block">
+          <span class="field-label">Rumah Lantai Tanah <span class="req">*</span></span>
+          <div class="radio-pill-group">
+            <label class="radio-pill">
+              <input type="radio" name="rumah_lantai_tanah" value="ya" required>
+              Ya
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="rumah_lantai_tanah" value="tidak">
+              Tidak
+            </label>
+          </div>
+        </div>
+
+        <div class="check-block">
+          <span class="field-label">Rumah Belum Memiliki Listrik <span class="req">*</span></span>
+          <div class="radio-pill-group">
+            <label class="radio-pill">
+              <input type="radio" name="belum_ada_listrik" value="ya" required>
+              Ya
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="belum_ada_listrik" value="tidak">
+              Tidak
+            </label>
+          </div>
+        </div>
+
+        <div class="check-block">
+          <span class="field-label">Ada Anak yang Tidak Sekolah <span class="req">*</span></span>
+          <div class="radio-pill-group">
+            <label class="radio-pill">
+              <input type="radio" name="anak_tidak_sekolah" value="ya" required>
+              Ya
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="anak_tidak_sekolah" value="tidak">
+              Tidak
+            </label>
+          </div>
+
+          <div class="sub-field" id="wrap-nama-anak" hidden>
+            <label for="nama_anak_tidak_sekolah">Nama anak yang tidak sekolah</label>
+            <textarea id="nama_anak_tidak_sekolah" name="nama_anak_tidak_sekolah" rows="3"
+              placeholder="Tulis satu nama per baris"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- KONFIRMASI -->
+      <fieldset>
+        <legend>7. Konfirmasi</legend>
+        <label class="checkbox-row">
+          <input type="checkbox" id="persetujuan" name="persetujuan" required>
+          Saya menyetujui data ini digunakan untuk keperluan program kerja KKM <span class="req">*</span>
+        </label>
+      </fieldset>
+
+      <div id="form-message" class="form-message" hidden></div>
+
+      <button type="submit" id="submit-btn" class="btn-primary">Kirim Data</button>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 KKM IKIP PGRI BOJONEGORO &mdash; Koordinator Kecamatan Kedewan</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    // Header "tenggelam" (mengecil) saat halaman di-scroll
+    const siteHeader = document.getElementById("site-header");
+    const onScroll = () => {
+      siteHeader.classList.toggle("is-collapsed", window.scrollY > 40);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  </script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

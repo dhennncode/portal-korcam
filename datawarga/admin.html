@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin — Data Rumah Warga Kecamatan Kedewan</title>
+
+  <link rel="stylesheet" href="../datawarga/css/style.css">
+  <link rel="stylesheet" href="../datawarga/css/admin.css">
+</head>
+
+<body>
+  <a href="../index.html"
+    style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr;
+    Menu Utama</a>
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="site-header" id="site-header">
+
+    <div class="header-inner">
+
+      <img src="../datawarga/assets/logo-kkn.png" alt="Logo KKM Kedewan" class="brand-logo">
+
+      <div class="brand-text">
+
+        <span class="brand-badge">
+          Kartu Tugas Lapangan — KKM IKIP PGRI Bojonegoro
+        </span>
+
+        <strong class="brand-title">
+          Data Rumah Warga
+          <span id="role-tag" class="role-tag" hidden></span>
+        </strong>
+
+        <small class="brand-subtitle">
+          Panel Admin — Kecamatan Kedewan
+        </small>
+
+      </div>
+
+      <button id="logout-btn" class="header-link header-link-btn" hidden>
+        Keluar
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="page page-admin">
+
+
+    <!-- ===================================================
+         LOGIN
+    ==================================================== -->
+
+    <section id="login-view" class="login-wrap">
+
+      <form id="login-form" class="card login-card" novalidate>
+
+        <h1>Masuk sebagai Admin</h1>
+
+        <p class="hint-text">
+          Gunakan akun Korcam / Kordes yang sudah
+          didaftarkan di Supabase Auth.
+        </p>
+
+
+        <div class="field">
+
+          <label for="login-email">
+            Email
+          </label>
+
+          <input type="email" id="login-email" required autocomplete="email">
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="login-password">
+            Password
+          </label>
+
+          <input type="password" id="login-password" required autocomplete="current-password">
+
+        </div>
+
+
+        <div id="login-message" class="form-message" hidden></div>
+
+
+        <button type="submit" id="login-btn" class="btn-primary">
+          Masuk
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- ===================================================
+         DASHBOARD
+    ==================================================== -->
+
+    <section id="dashboard-view" hidden>
+
+
+      <!-- ===============================================
+           STATISTIK
+      ================================================ -->
+
+      <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-total">
+            0
+          </span>
+
+          <span class="stat-label">
+            Total Data
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-menunggu">
+            0
+          </span>
+
+          <span class="stat-label">
+            Menunggu Verifikasi
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-anak-tidak-sekolah">
+            0
+          </span>
+
+          <span class="stat-label">
+            Anak Tidak Sekolah
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-anak-ingin-kuliah">
+            0
+          </span>
+
+          <span class="stat-label">
+            Anak Ingin Kuliah
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-lantai-tanah">
+            0
+          </span>
+
+          <span class="stat-label">
+            Rumah Lantai Tanah
+          </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <span class="stat-value" id="stat-listrik">
+            0
+          </span>
+
+          <span class="stat-label">
+            Belum Ada Listrik
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===============================================
+           REKAP DESA
+      ================================================ -->
+
+      <div class="card" id="desa-summary-card">
+
+        <div style="
+            margin-bottom:14px;
+            display:block;
+            font-weight:700;
+            color:var(--color-primary);
+          ">
+          Rekap per Desa
+        </div>
+
+
+        <div class="table-scroll">
+
+          <table class="desa-summary-table" id="desa-summary-table">
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Desa
+                </th>
+
+                <th class="num">
+                  Total Data
+                </th>
+
+                <th class="num">
+                  Kelompok Aktif
+                </th>
+
+                <th class="num">
+                  Menunggu
+                </th>
+
+                <th class="num">
+                  Terverifikasi
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody id="desa-summary-body"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===============================================
+           FILTER
+      ================================================ -->
+
+      <div class="card filter-bar">
+
+
+        <div class="field">
+
+          <label for="filter-search">
+            Cari (nama / NIK / no KK / pekerjaan)
+          </label>
+
+          <input type="text" id="filter-search" placeholder="Ketik untuk mencari...">
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="filter-desa">
+            Desa
+          </label>
+
+          <select id="filter-desa">
+
+            <option value="">
+              Semua Desa
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="filter-kelompok">
+            Kelompok
+          </label>
+
+          <select id="filter-kelompok">
+
+            <option value="">
+              Semua Kelompok
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="filter-status">
+            Status Verifikasi
+          </label>
+
+          <select id="filter-status">
+
+            <option value="">
+              Semua
+            </option>
+
+            <option value="menunggu">
+              Menunggu
+            </option>
+
+            <option value="terverifikasi">
+              Terverifikasi
+            </option>
+
+            <option value="ditolak">
+              Ditolak
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label for="filter-desil">
+            Desil
+          </label>
+
+          <select id="filter-desil">
+
+            <option value="">
+              Semua
+            </option>
+
+            <option value="tidak_terdaftar">
+              Tidak Terdaftar
+            </option>
+
+            <option value="1">
+              Desil 1
+            </option>
+
+            <option value="2">
+              Desil 2
+            </option>
+
+            <option value="3">
+              Desil 3
+            </option>
+
+            <option value="4">
+              Desil 4
+            </option>
+
+            <option value="5">
+              Desil 5
+            </option>
+
+            <option value="6">
+              Desil 6
+            </option>
+
+            <option value="7">
+              Desil 7
+            </option>
+
+            <option value="8">
+              Desil 8
+            </option>
+
+            <option value="9">
+              Desil 9
+            </option>
+
+            <option value="10">
+              Desil 10
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button type="button" id="filter-reset-btn" class="btn-secondary">
+          Reset
+        </button>
+
+
+        <button type="button" id="export-btn" class="btn-primary">
+          Ekspor Excel
+        </button>
+
+      </div>
+
+
+      <!-- ===============================================
+           TABEL DATA
+      ================================================ -->
+
+      <div class="card table-card">
+
+        <div class="table-scroll">
+
+          <table id="data-table">
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Desa
+                </th>
+
+                <th>
+                  Kelompok
+                </th>
+
+                <th>
+                  Nama Kepala Keluarga
+                </th>
+
+                <th>
+                  No. KK
+                </th>
+
+                <th>
+                  NIK
+                </th>
+
+                <th>
+                  RT/RW
+                </th>
+
+                <th>
+                  Desil
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  Tanggal
+                </th>
+
+                <th>
+                  Aksi
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody id="data-table-body"></tbody>
+
+          </table>
+
+        </div>
+
+
+        <p id="table-empty" class="hint-text" hidden>
+          Belum ada data yang cocok dengan filter ini.
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       MODAL DETAIL
+  ====================================================== -->
+
+  <div id="detail-modal" class="modal-overlay" hidden>
+
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+
+      <button type="button" id="modal-close-btn" class="modal-close" aria-label="Tutup">
+        &times;
+      </button>
+
+
+      <h2 id="modal-title">
+        Detail Data Rumah Tangga
+      </h2>
+
+
+      <div id="modal-content" class="modal-content">
+        <!-- Diisi oleh admin.js -->
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button type="button" id="btn-hapus" class="btn-outline-danger">
+          Hapus Data
+        </button>
+
+
+        <button type="button" id="btn-tolak" class="btn-outline-danger">
+          Tolak
+        </button>
+
+
+        <button type="button" id="btn-verifikasi" class="btn-primary">
+          Verifikasi
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+       PENTING: URUTAN JANGAN DIUBAH
+  ====================================================== -->
+
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <!-- EXCELJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+
+
+  <!-- CONFIG -->
+  <script src="js/config.js"></script>
+
+
+  <!-- HEADER SCROLL -->
+  <script>
+
+    const siteHeader =
+      document.getElementById("site-header");
+
+
+    const onScroll = () => {
+
+      siteHeader.classList.toggle(
+        "is-collapsed",
+        window.scrollY > 40
+      );
+
+    };
+
+
+    window.addEventListener(
+      "scroll",
+      onScroll,
+      {
+        passive: true
+      }
+    );
+
+
+    onScroll();
+
+  </script>
+
+
+  <!-- ADMIN SCRIPT -->
+  <script src="js/admin.js"></script>
+
+
+</body>
+
+</html>

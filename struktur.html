@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Struktur Organisasi Korcam — Kecamatan Kedewan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-900:#0B1F4D; --navy-800:#12296B; --navy-700:#1E40AF; --navy-500:#3B5BC4; --navy-100:#E7ECFA;
+    --gold-600:#A6801C; --gold-500:#C9A227; --gold-300:#E8C766; --gold-100:#FBF3DA;
+    --ink-900:#10142B; --ink-600:#4A5170; --ink-400:#7A82A0; --ink-200:#C7CCDE;
+    --paper:#F4F6FB; --white:#fff;
+    --font-display:'Plus Jakarta Sans','Inter',sans-serif;
+    --font-mono:'JetBrains Mono','Inter',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:var(--paper); color:var(--ink-900);
+    font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;
+  }
+  .back-link{
+    position:fixed; top:10px; left:10px; z-index:9999;
+    font-family:'Inter',system-ui,sans-serif; font-size:12px; font-weight:600;
+    color:var(--navy-900); background:var(--gold-100); border:1px solid var(--gold-500);
+    padding:6px 12px; border-radius:999px; text-decoration:none;
+    box-shadow:0 4px 10px rgba(11,31,77,.15);
+  }
+  .wrap{ max-width:900px; margin:0 auto; padding:48px 20px 72px; }
+
+  .kop{
+    background:linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
+    color:var(--paper); border-radius:20px; padding:30px 28px 26px;
+    box-shadow:0 20px 50px -16px rgba(11,31,77,.35); position:relative; overflow:hidden;
+  }
+  .kop::after{ content:""; position:absolute; right:-40px; top:-40px; width:180px; height:180px;
+    border-radius:50%; background:radial-gradient(circle, rgba(232,199,102,.18), transparent 70%); }
+  .kop-eyebrow{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold-300); margin:0 0 10px; }
+  .kop-title{ font-family:var(--font-display); font-weight:800; font-size:24px; line-height:1.25; margin:0 0 6px; }
+  .kop-sub{ font-size:13.5px; color:var(--navy-100); margin:0; max-width:52ch; }
+  .kop-stripe{ height:3px; margin-top:22px; border-radius:2px;
+    background:linear-gradient(90deg, var(--gold-300), transparent 70%); }
+
+  .section-label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-400); margin:38px 2px 14px; }
+
+  .struktur-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media(max-width:720px){ .struktur-grid{ grid-template-columns:1fr; } }
+
+  .person-card{
+    background:var(--white); border:1px solid var(--ink-200); border-radius:16px;
+    padding:26px 20px; text-align:center; box-shadow:0 1px 2px rgba(11,31,77,.04);
+  }
+  .person-photo-wrap{ width:88px; height:88px; margin:0 auto 14px; position:relative; }
+  .person-photo{
+    width:88px; height:88px; border-radius:50%; object-fit:cover;
+    border:3px solid var(--gold-300); display:block;
+  }
+  .person-monogram{
+    width:88px; height:88px; border-radius:50%;
+    background:var(--navy-900); color:var(--gold-100);
+    font-family:var(--font-display); font-weight:700; font-size:26px;
+    display:flex; align-items:center; justify-content:center;
+    border:3px solid var(--gold-300);
+  }
+  .person-role{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-600); margin-bottom:5px;
+  }
+  .person-name{ font-family:var(--font-display); font-weight:700; font-size:16px; color:var(--ink-900); }
+
+  .foot{ margin-top:44px; padding-top:18px; border-top:1px solid var(--ink-200);
+    font-size:12px; color:var(--ink-400); }
+</style>
+</head>
+<body>
+  <a class="back-link" href="index.html">&larr; Menu Utama</a>
+  <div class="wrap">
+
+    <header class="kop">
+      <p class="kop-eyebrow">Panitia KKM · IKIP PGRI Bojonegoro</p>
+      <h1 class="kop-title">Struktur Organisasi<br>Korcam Kecamatan Kedewan</h1>
+      <p class="kop-sub">Susunan penanggung jawab pelaksanaan KKM IKIP PGRI Bojonegoro Tahun 2026 di tingkat kecamatan.</p>
+      <div class="kop-stripe"></div>
+    </header>
+
+    <p class="section-label">Pengurus</p>
+    <div class="struktur-grid" id="struktur-grid"></div>
+
+    <div class="foot">Untuk memasang foto: taruh file foto di folder <code>foto/</code> dengan nama persis seperti di <code>TIM_KORCAM</code> pada kode halaman ini (mis. <code>foto/dedy-indra-setiawan.jpg</code>), atau ganti langsung atribut <code>src</code> pada tiap kartu.</div>
+  </div>
+
+<script>
+  const TIM_KORCAM = [
+    { peran: "Ketua",      nama: "Dedy Indra Setiawan",    foto: "foto/dedy-indra-setiawan.jpg" },
+    { peran: "Sekretaris", nama: "Adinda Putri Handayani", foto: "foto/adinda-putri-handayani.jpg" },
+    { peran: "Bendahara",  nama: "Johan Dwi Murtopo",      foto: "foto/johan-dwi-murtopo.jpg" },
+  ];
+
+  function escapeHtml(str){ const div = document.createElement("div"); div.textContent = str == null ? "" : String(str); return div.innerHTML; }
+
+  function renderStruktur(){
+    const grid = document.getElementById("struktur-grid");
+    grid.innerHTML = TIM_KORCAM.map((p) => {
+      const initials = p.nama.split(" ").slice(0,2).map(w => w[0]).join("").toUpperCase();
+      return `
+        <div class="person-card">
+          <div class="person-photo-wrap">
+            <img class="person-photo" src="${p.foto}" alt="Foto ${escapeHtml(p.nama)}"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="person-monogram">${initials}</div>
+          </div>
+          <div class="person-role">${escapeHtml(p.peran)}</div>
+          <div class="person-name">${escapeHtml(p.nama)}</div>
+        </div>`;
+    }).join("");
+  }
+
+  renderStruktur();
+</script>
+</body>
+</html>

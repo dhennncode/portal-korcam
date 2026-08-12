@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panel Korcam — Monitoring KKM Kedewan</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<a href="../index.html" style="position:fixed;top:10px;left:10px;z-index:9999;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#0B1F4D;background:#FBF3DA;border:1px solid #C9A227;padding:6px 12px;border-radius:999px;text-decoration:none;box-shadow:0 4px 10px rgba(11,31,77,.15);">&larr; Menu Utama</a>
+
+
+<!-- ===================== LOGIN GATE ===================== -->
+<div class="login-shell" id="login-shell">
+  <div class="login-card">
+    <img class="login-seal" src="img/logo-ikip.png" alt="Logo IKIP PGRI Bojonegoro" />
+    <h1>Panel Korcam</h1>
+    <div class="sub">Khusus Koordinator Kecamatan Kedewan</div>
+    <form id="login-form">
+      <div class="field">
+        <label>NIM</label>
+        <input type="text" id="login-nim" placeholder="24320034" required autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Sandi</label>
+        <input type="password" id="login-sandi" placeholder="••••••" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+      <div class="login-error" id="login-error">NIM atau sandi salah.</div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD ===================== -->
+<div class="admin-shell" id="admin-shell">
+
+  <div id="kop-mount"></div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="dashboard"><span class="tab-letter">A</span> Dashboard</button>
+    <button class="tab-btn" data-tab="proker"><span class="tab-letter">B</span> Kelola Proker</button>
+  </div>
+
+  <div class="container">
+
+    <div class="top-actions">
+      <button class="btn-ghost" id="logout-btn">Keluar dari panel admin</button>
+    </div>
+
+    <div id="error-box"></div>
+
+    <!-- ===================== A. DASHBOARD ===================== -->
+    <div class="tab-panel active" id="panel-dashboard">
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Laporan Masuk</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-progres">0%</div>
+          <div class="stat-label">Rata² Progres Proker</div>
+        </div>
+        <div class="stat-card warn">
+          <div class="stat-value" id="stat-kendala">0</div>
+          <div class="stat-label">Kendala Belum Selesai</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-value" id="stat-bantuan">0</div>
+          <div class="stat-label">Butuh Bantuan Korcam</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Belum Lapor (Minggu Terbaru)</h2>
+        <p class="sub">Koordinator desa yang belum kirim laporan untuk minggu paling baru.</p>
+        <div id="belum-lapor-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>Rekap Laporan Mingguan</h2>
+        <p class="sub">Data ditarik langsung dari database (tabel "proker_laporan"), dikelompokkan per pengiriman.</p>
+
+        <div class="filters-row">
+          <select id="filter-minggu"></select>
+          <select id="filter-desa"></select>
+          <button class="btn btn-outline" id="refresh-btn">&#8635; Refresh</button>
+        </div>
+
+        <div id="laporan-loading" class="muted">Memuat data...</div>
+        <div id="laporan-empty" class="muted" style="display:none;">Belum ada laporan yang cocok. Cek filter, atau pastikan Supabase sudah terhubung (lihat README.md).</div>
+
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Minggu</th>
+                <th>Desa</th>
+                <th>Koordinator</th>
+                <th>Progres Proker</th>
+                <th>Pendataan</th>
+                <th>Kendala</th>
+                <th>Bantuan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="laporan-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== B. KELOLA PROKER ===================== -->
+    <div class="tab-panel" id="panel-proker">
+      <div class="card">
+        <h2>Daftarkan Proker Kelompok</h2>
+        <p class="sub">Tiap kelompok bisa punya lebih dari satu proker. Daftarkan di sini sekali di awal — kelompok akan
+          tinggal menggeser persentase progres tiap minggu lewat form publik, tanpa Anda perlu tahu detail teknis tiap proker.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Desa *</label>
+            <select id="proker-desa" required></select>
+          </div>
+          <div class="field">
+            <label>Nama Koordinator / Kelompok *</label>
+            <select id="proker-kelompok" required></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nama Proker *</label>
+          <input type="text" id="proker-nama" placeholder="mis. Bimbingan Belajar Anak Desa" required />
+        </div>
+        <button class="btn btn-primary" id="proker-submit-btn">+ Tambah Proker</button>
+      </div>
+
+      <div class="card">
+        <h2>Proker Terdaftar</h2>
+        <p class="sub">Kelompok baru menampilkan proker ini di form laporan mingguan setelah tersimpan di database.</p>
+        <div id="proker-master-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
