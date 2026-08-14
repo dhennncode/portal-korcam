@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Admin — Survey Potensi Kecamatan Kedewan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+    <!-- Pakai ulang style.css yang sudah ada di folder survey/ ini, biar warna & font selaras -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ============ Tambahan khusus panel admin (tidak mengubah style.css asli) ============ */
+
+        .admin-shell { display: none; max-width: 920px; }
+        .admin-shell.active { display: block; }
+
+        /* ---- Login gate ---- */
+        .login-shell {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            background: radial-gradient(1200px 600px at 50% -10%, var(--navy-500) 0%, var(--navy-900) 55%, #060B1E 100%);
+        }
+        .login-card {
+            width: 100%; max-width: 380px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop);
+            padding: 32px 26px;
+            text-align: center;
+        }
+        .login-card h1 {
+            font-family: var(--font-display); font-weight: 800; font-size: 22px;
+            color: var(--navy-900); margin: 14px 0 4px;
+        }
+        .login-card .sub { font-size: 13px; color: var(--ink-600); margin: 0 0 22px; }
+        .login-seal-fallback {
+            width: 46px; height: 46px; margin: 0 auto;
+            border-radius: 50%; background: linear-gradient(135deg, var(--navy-700), var(--navy-900));
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold-300); font-family: var(--font-display); font-weight: 800; font-size: 18px;
+        }
+        .login-card .field { text-align: left; margin-bottom: 14px; }
+        .login-card label { display: block; font-size: 12.5px; font-weight: 700; color: var(--ink-600); margin-bottom: 6px; }
+        .login-card input {
+            width: 100%; padding: 11px 13px; border-radius: 10px;
+            border: 1.5px solid var(--border); font-family: var(--font-body); font-size: 14.5px;
+            background: var(--bg); color: var(--ink-900);
+        }
+        .login-card input:focus { outline: none; border-color: var(--navy-500); background: var(--surface); }
+        .login-error {
+            display: none; margin-top: 12px; font-size: 12.5px; font-weight: 600;
+            color: var(--error); background: var(--error-bg); border: 1px solid var(--error-border);
+            padding: 8px 10px; border-radius: 8px;
+        }
+
+        /* ---- Top actions ---- */
+        .top-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .btn-sm {
+            font-family: var(--font-body); font-weight: 700; font-size: 12.5px;
+            padding: 8px 14px; border-radius: 999px; cursor: pointer; border: none;
+        }
+        .btn-sm.ghost { background: var(--surface); border: 1.5px solid var(--border); color: var(--ink-600); }
+        .btn-sm.ghost:hover { background: var(--navy-100); color: var(--navy-700); }
+        .btn-sm.gold { background: linear-gradient(135deg, var(--gold-500), var(--gold-600)); color: #fff; }
+
+        #error-box {
+            display: none; margin-bottom: 16px; font-size: 13px; font-weight: 600;
+            color: var(--error); background: var(--error-bg); border: 1px solid var(--error-border);
+            padding: 10px 14px; border-radius: 10px;
+        }
+
+        /* ---- Stats ---- */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px;
+        }
+        .stat-card {
+            background: var(--surface); border-radius: var(--radius-md); box-shadow: var(--shadow-card);
+            padding: 16px 14px; text-align: center;
+        }
+        .stat-value { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--navy-900); }
+        .stat-label { font-size: 11px; color: var(--ink-400); font-weight: 600; margin-top: 4px; }
+        @media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ---- Filters ---- */
+        .filters-card {
+            background: var(--surface); border-radius: var(--radius-md); box-shadow: var(--shadow-card);
+            padding: 16px; margin-bottom: 18px;
+        }
+        .filters-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .filters-row select, .filters-row input[type="text"] {
+            flex: 1 1 150px; padding: 9px 11px; border-radius: 10px; border: 1.5px solid var(--border);
+            font-family: var(--font-body); font-size: 13.5px; background: var(--bg); color: var(--ink-900);
+        }
+        .result-count { font-size: 12px; color: var(--ink-400); margin-top: 10px; }
+
+        /* ---- Entry cards ---- */
+        #data-list { display: flex; flex-direction: column; gap: 14px; }
+        .entry-card {
+            background: var(--surface); border-radius: var(--radius-md); box-shadow: var(--shadow-card);
+            padding: 18px 18px 16px;
+        }
+        .entry-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+        .badge {
+            display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .02em;
+            color: var(--navy-800); background: var(--gold-100); border: 1px solid var(--gold-300);
+            padding: 3px 9px; border-radius: 999px; margin-bottom: 6px;
+        }
+        .entry-title { font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--navy-900); margin: 0 0 2px; }
+        .entry-loc { font-size: 12.5px; color: var(--ink-400); margin: 0; }
+        .icon-btn.danger {
+            flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--error-border);
+            background: var(--error-bg); color: var(--error); font-size: 18px; line-height: 1; cursor: pointer;
+        }
+        .icon-btn.danger:hover { background: var(--error); color: #fff; }
+
+        .entry-meta {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 16px;
+            margin: 12px 0; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .entry-meta dt { font-size: 10.5px; color: var(--ink-400); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+        .entry-meta dd { margin: 2px 0 0; font-size: 13.5px; color: var(--ink-900); font-weight: 600; }
+
+        .entry-text p { font-size: 13.5px; color: var(--ink-600); margin: 0 0 6px; line-height: 1.5; }
+        .mini-link { font-size: 12.5px; font-weight: 700; color: var(--navy-700); text-decoration: none; }
+        .mini-link:hover { text-decoration: underline; }
+
+        .entry-photos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .entry-thumb {
+            width: 76px; height: 76px; object-fit: cover; border-radius: 10px; cursor: pointer;
+            border: 1px solid var(--border); transition: transform .15s ease;
+        }
+        .entry-thumb:hover { transform: scale(1.05); }
+
+        .muted { color: var(--ink-400); }
+        .small { font-size: 12.5px; }
+
+        /* ---- Lightbox ---- */
+        #lightbox {
+            display: none; position: fixed; inset: 0; background: rgba(11,15,33,.88); z-index: 999;
+            align-items: center; justify-content: center; padding: 24px; cursor: zoom-out;
+        }
+        #lightbox.active { display: flex; }
+        #lightbox img { max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: var(--shadow-pop); }
+
+        /* ---- Toast ---- */
+        .toast {
+            position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 20px);
+            background: var(--navy-900); color: #fff; font-size: 13px; font-weight: 600;
+            padding: 12px 18px; border-radius: 999px; box-shadow: var(--shadow-pop);
+            opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 1000;
+        }
+        .toast.show { opacity: 1; transform: translate(-50%, 0); }
+        .toast.toast-error { background: var(--error); }
+    </style>
+</head>
+
+<body>
+
+    <div class="topo-layer" aria-hidden="true"></div>
+
+    <!-- ===================== LOGIN GATE ===================== -->
+    <div class="login-shell" id="login-shell">
+        <div class="login-card">
+            <div class="login-seal-fallback">SPK</div>
+            <h1>Panel Admin Survey</h1>
+            <p class="sub">Khusus tim internal &middot; Survey Potensi Kecamatan Kedewan</p>
+            <form id="login-form">
+                <div class="field">
+                    <label for="login-nim">NIM</label>
+                    <input type="text" id="login-nim" placeholder="24320034" required autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="login-sandi">Sandi</label>
+                    <input type="password" id="login-sandi" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                </div>
+                <button type="submit" class="btn btn--primary" style="width:100%;">Masuk</button>
+                <div class="login-error" id="login-error">NIM atau sandi salah.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================== ADMIN DASHBOARD ===================== -->
+    <div class="app-shell admin-shell" id="admin-shell">
+
+        <div class="topbar"><a class="back-link" href="../index.html">&larr; Menu Utama</a></div>
+
+        <header class="kop">
+            <p class="kop-eyebrow">Panel Internal &mdash; KKM IKIP PGRI Bojonegoro</p>
+            <h1 class="kop-title">Admin Survey Potensi Kecamatan</h1>
+            <p class="kop-sub">Rekap &amp; kelola data hasil pendataan objek potensi desa</p>
+            <div class="kop-stripe"></div>
+        </header>
+
+        <div class="top-actions">
+            <button class="btn-sm gold" id="refresh-btn">&#8635; Refresh Data</button>
+            <button class="btn-sm ghost" id="export-btn">&#8681; Ekspor CSV</button>
+            <button class="btn-sm ghost" id="logout-btn">Keluar</button>
+        </div>
+
+        <div id="error-box"></div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">Total Entri</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-desa">0</div>
+                <div class="stat-label">Desa Tercover</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-minggu">0</div>
+                <div class="stat-label">Masuk 7 Hari Ini</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-kategori" style="font-size:13px;">-</div>
+                <div class="stat-label">Kategori Terbanyak</div>
+            </div>
+        </div>
+
+        <div class="filters-card">
+            <div class="filters-row">
+                <select id="filter-desa"></select>
+                <select id="filter-kategori"></select>
+                <select id="filter-kelompok"></select>
+                <input type="text" id="filter-search" placeholder="Cari nama objek / surveyor...">
+                <button class="btn-sm ghost" id="reset-filter-btn">Reset</button>
+            </div>
+            <p class="result-count" id="result-count"></p>
+        </div>
+
+        <p id="data-loading" class="muted">Memuat data...</p>
+        <p id="data-empty" class="muted" style="display:none;">Belum ada data yang cocok dengan filter, atau tabel "survey_data" masih kosong.</p>
+
+        <div id="data-list"></div>
+
+    </div>
+
+    <div id="lightbox"><img id="lightbox-img" src="" alt="Foto ukuran penuh"></div>
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>
