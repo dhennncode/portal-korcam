@@ -11,41 +11,139 @@
   <style>
     /* ---- Hanya elemen yang benar-benar spesifik halaman ini ---- */
 
-    .wrap { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 44px 20px 72px; }
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 44px 20px 72px;
+    }
 
-    .kop-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .kop-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
     .kop-brand img {
-      width: 54px; height: 54px; border-radius: 50%; background: #fff; padding: 6px;
-      box-shadow: 0 8px 20px -8px rgba(0,0,0,.4); object-fit: contain; flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 8px 20px -8px rgba(0, 0, 0, .4);
+      object-fit: contain;
+      flex-shrink: 0;
     }
-    .kop-title { max-width: 18ch; }
-    .kop-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; }
-    .kop-meta span {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--gold-100);
-      display: inline-flex; align-items: center; gap: 6px; opacity: .9;
-    }
-    .kop-meta span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--gold-300); }
 
-    .route { display: flex; align-items: center; gap: 0; margin: 34px 0 6px; padding: 0 4px; }
-    .route-node { width: 8px; height: 8px; border-radius: 50%; background: var(--maroon-600); flex-shrink: 0; }
-    .route-node.origin { width: 10px; height: 10px; background: var(--gold-500); }
-    .route-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold-500), var(--ink-200) 60%); }
-    .route-line:last-of-type { background: linear-gradient(90deg, var(--ink-200), var(--ink-200)); }
-    @media (max-width: 600px) { .route { display: none; } }
+    .kop-title {
+      max-width: 18ch;
+    }
+
+    .kop-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 18px;
+    }
+
+    .kop-meta span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .04em;
+      color: var(--gold-100);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      opacity: .9;
+    }
+
+    .kop-meta span::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold-300);
+    }
+
+    .route {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 34px 0 6px;
+      padding: 0 4px;
+    }
+
+    .route-node {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--maroon-600);
+      flex-shrink: 0;
+    }
+
+    .route-node.origin {
+      width: 10px;
+      height: 10px;
+      background: var(--gold-500);
+    }
+
+    .route-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-500), var(--ink-200) 60%);
+    }
+
+    .route-line:last-of-type {
+      background: linear-gradient(90deg, var(--ink-200), var(--ink-200));
+    }
+
+    @media (max-width: 600px) {
+      .route {
+        display: none;
+      }
+    }
 
     .menu-label {
-      font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--ink-400); margin: 14px 2px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-400);
+      margin: 14px 2px 14px;
     }
 
     .foot {
-      margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--border);
-      font-size: 12px; color: var(--ink-400);
-      display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; align-items: center;
+      margin-top: 44px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--ink-400);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      justify-content: space-between;
+      align-items: center;
     }
-    .foot span { font-family: var(--font-mono); }
-    .foot img { width: 22px; height: 22px; border-radius: 50%; object-fit: contain; opacity: .85; }
-    .foot-brand { display: flex; align-items: center; gap: 8px; }
+
+    .foot span {
+      font-family: var(--font-mono);
+    }
+
+    .foot img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: contain;
+      opacity: .85;
+    }
+
+    .foot-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   </style>
 </head>
 
@@ -97,21 +195,22 @@
       <a class="menu-card" href="proker/index.html">
         <span class="menu-letter">A</span>
         <h3>Lapor &amp; Monitoring Proker</h3>
-        <p>Struktur Korcam, lapor progres proker mingguan per kelompok, dan dashboard pemantauan.</p>
+        <p>Struktur Korcam, lapor progres proker mingguan per kelompok.</p>
         <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
       <a class="menu-card" href="datawarga/index.html">
         <span class="menu-letter">B</span>
         <h3>Data Rumah Warga</h3>
-        <p>Formulir pendataan kondisi rumah tangga per Desa &amp; Kelompok, lengkap unggah foto dan dashboard admin.</p>
+        <p>Formulir pendataan kondisi rumah tangga per Desa &amp; Kelompok.</p>
         <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
       <a class="menu-card" href="survey/index.html">
         <span class="menu-letter">C</span>
         <h3>Survey Potensi Kecamatan</h3>
-        <p>Formulir survei potensi wilayah — ekonomi, sosial, dan infrastruktur — untuk pemetaan awal Kecamatan Kedewan.</p>
+        <p>Formulir survei potensi wilayah untuk pemetaan awal Kecamatan Kedewan.
+        </p>
         <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
