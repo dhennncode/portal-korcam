@@ -17,7 +17,8 @@
 .login-card {
   width: 100%;
   max-width: 380px;
-  text-align: left;
+  text-align: center;
+  box-shadow: var(--shadow-pop);
 }
 
 .login-card h1 {
@@ -25,11 +26,11 @@
   font-weight: 800;
   font-size: 20px;
   margin: 0 0 6px;
-  color: var(--ink-900);
+  color: var(--maroon-900);
 }
 
 .login-card .hint-text { margin-bottom: 20px; }
-.login-card .field { margin-bottom: 14px; }
+.login-card .field { margin-bottom: 14px; text-align: left; }
 
 /* =========================================================
    STATS

@@ -278,7 +278,7 @@ async function deleteEntry(id) {
                 return idx >= 0 ? u.slice(idx + marker.length) : null;
             }).filter(Boolean);
             if (paths.length) {
-                supabaseClient.storage.from(STORAGE_BUCKET).remove(paths).catch(() => { });
+                supabaseClient.storage.from(STORAGE_BUCKET).remove(paths).catch(() => {});
             }
         }
 

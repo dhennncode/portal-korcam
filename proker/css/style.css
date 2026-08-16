@@ -1,34 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
-
-:root {
-  /* -- selaras dengan web survey: palet navy / gold -- */
-  --ink-900: #10142B;
-  --ink-800: #12296B;
-  --ink-700: #10142B;
-  --forest-900: #0B1F4D;
-  --forest-700: #1E40AF;
-  --forest-600: #3B5BC4;
-  --gold-700: #A6801C;
-  --gold-600: #C9A227;
-  --gold-100: #FBF3DA;
-  --paper-50: #F4F6FB;
-  --paper-100: #E7ECFA;
-  --paper-200: #E3E7F2;
-  --line: #E3E7F2;
-  --line-strong: #C7CCDE;
-  --ink-muted: #4A5170;
-  --white: #ffffff;
-  --red-700: #B23A3A;
-  --red-100: #FCECEC;
-  --green-ok: #157A4F;
-
-  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Inter', monospace;
-
-  --radius: 12px;
-  --shadow-card: 0 1px 2px rgba(11, 31, 77, 0.04), 0 12px 28px -14px rgba(11, 31, 77, 0.18);
-}
+/* Token warna & font sudah dipusatkan di ../shared/css/design-system.css
+   (di-link SEBELUM file ini di index.html & admin.html). File ini hanya
+   berisi layout & komponen spesifik modul Proker. */
 
 * { box-sizing: border-box; }
 
@@ -557,45 +529,9 @@ tbody td { padding: 10px; border-top: 1px solid var(--paper-200); vertical-align
 }
 .doc-ref-card b { color: var(--ink-700); }
 
-/* ===================== ADMIN LOGIN ===================== */
-.login-shell {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-.login-card {
-  width: 100%;
-  max-width: 360px;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 30px 28px;
-  text-align: center;
-}
-.login-seal {
-  width: 52px; height: 52px;
-  margin: 0 auto 14px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  padding: 4px;
-}
-.login-card h1 {
-  font-family: var(--font-display);
-  font-size: 17px;
-  margin: 0 0 2px;
-  color: var(--ink-900);
-}
-.login-card .sub { font-family: var(--font-body); font-size: 11.5px; color: var(--ink-muted); margin-bottom: 20px; }
-.login-card .field { text-align: left; }
-.login-error {
-  display: none;
-  font-family: var(--font-body);
-  font-size: 11.5px;
-  color: var(--red-700);
-  margin-top: 10px;
-}
+/* Login gate (.login-shell, .login-card, .login-seal, .login-error) sudah
+   didefinisikan di shared/css/design-system.css supaya seragam dengan
+   modul lain — tidak perlu ditimpa lagi di sini. */
 
 .admin-shell { display: none; }
 .admin-shell.active { display: block; }

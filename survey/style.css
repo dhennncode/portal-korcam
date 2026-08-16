@@ -1,50 +1,7 @@
-/* ==========================================================================
-   Survey Potensi Kecamatan Kedewan — Design tokens
-   ========================================================================== */
-:root {
-    --navy-900: #0B1F4D;
-    --navy-800: #12296B;
-    --navy-700: #1E40AF;
-    --navy-500: #3B5BC4;
-    --navy-100: #E7ECFA;
+/* Token warna & font sudah dipusatkan di ../shared/css/design-system.css
+   (di-link SEBELUM file ini di index.html). File ini hanya berisi layout
+   & komponen spesifik form Survey. */
 
-    --gold-600: #A6801C;
-    --gold-500: #C9A227;
-    --gold-300: #E8C766;
-    --gold-100: #FBF3DA;
-
-    --ink-900: #10142B;
-    --ink-600: #4A5170;
-    --ink-400: #7A82A0;
-    --ink-200: #C7CCDE;
-
-    --bg: #F4F6FB;
-    --surface: #FFFFFF;
-    --border: #E3E7F2;
-
-    --success: #157A4F;
-    --success-bg: #E7F6EE;
-    --success-border: #B7E4CB;
-
-    --error: #B23A3A;
-    --error-bg: #FCECEC;
-    --error-border: #F1C3C3;
-
-    --warn: #9A6B0A;
-    --warn-bg: #FBF1DC;
-    --warn-border: #EED9A6;
-
-    --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-
-    --radius-sm: 10px;
-    --radius-md: 16px;
-    --radius-lg: 22px;
-
-    --shadow-card: 0 1px 2px rgba(11, 31, 77, 0.04), 0 12px 28px -14px rgba(11, 31, 77, 0.18);
-    --shadow-pop: 0 20px 50px -12px rgba(11, 31, 77, 0.35);
-}
 
 * {
     box-sizing: border-box;

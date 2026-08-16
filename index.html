@@ -7,376 +7,50 @@
   <title>Portal KKM — Kecamatan Kedewan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
-    rel="stylesheet">
+  <link rel="stylesheet" href="shared/css/design-system.css">
   <style>
-    :root {
-      --navy-900: #0B1F4D;
-      --navy-800: #12296B;
-      --navy-700: #1E40AF;
-      --navy-500: #3B5BC4;
-      --navy-100: #E7ECFA;
-      --gold-600: #A6801C;
-      --gold-500: #C9A227;
-      --gold-300: #E8C766;
-      --gold-100: #FBF3DA;
-      --ink-900: #10142B;
-      --ink-600: #4A5170;
-      --ink-400: #7A82A0;
-      --ink-200: #C7CCDE;
-      --paper: #F4F6FB;
-      --white: #fff;
-      --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', 'Inter', monospace;
-    }
+    /* ---- Hanya elemen yang benar-benar spesifik halaman ini ---- */
 
-    * {
-      box-sizing: border-box;
-    }
+    .wrap { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 44px 20px 72px; }
 
-    html {
-      scroll-behavior: smooth;
+    .kop-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .kop-brand img {
+      width: 54px; height: 54px; border-radius: 50%; background: #fff; padding: 6px;
+      box-shadow: 0 8px 20px -8px rgba(0,0,0,.4); object-fit: contain; flex-shrink: 0;
     }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--paper);
-      color: var(--ink-900);
-      font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    .topo {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      opacity: .5;
-      pointer-events: none;
-      background-image:
-        radial-gradient(circle at 12% 8%, rgba(59, 91, 196, .10), transparent 40%),
-        radial-gradient(circle at 88% 92%, rgba(201, 162, 39, .12), transparent 42%);
-    }
-
-    .wrap {
-      position: relative;
-      z-index: 1;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 44px 20px 72px;
-    }
-
-    .kop {
-      background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 62%, var(--navy-500) 120%);
-      color: var(--paper);
-      border-radius: 22px;
-      padding: 34px 32px 30px;
-      box-shadow: 0 24px 56px -18px rgba(11, 31, 77, .4);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .kop::after {
-      content: "";
-      position: absolute;
-      right: -40px;
-      top: -40px;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(232, 199, 102, .18), transparent 70%);
-    }
-
-    .kop-struktur-btn {
-      position: absolute;
-      top: 28px;
-      right: 30px;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .02em;
-      color: var(--navy-900);
-      background: var(--gold-300);
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .25);
-      box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .35);
-      transition: transform .15s ease, background .15s ease;
-    }
-
-    .kop-struktur-btn:hover {
-      background: var(--gold-100);
-      transform: translateY(-1px);
-    }
-
-    .kop-struktur-btn svg {
-      width: 13px;
-      height: 13px;
-    }
-
-    @media(max-width:600px) {
-      .kop-struktur-btn {
-        position: static;
-        margin-bottom: 16px;
-      }
-    }
-
-    .kop-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--gold-300);
-      margin: 0 0 12px;
-    }
-
-    .kop-title {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 30px;
-      line-height: 1.2;
-      margin: 0 0 10px;
-      letter-spacing: -0.01em;
-      max-width: 16ch;
-    }
-
-    .kop-sub {
-      font-size: 14px;
-      color: var(--navy-100);
-      margin: 0;
-      max-width: 46ch;
-      line-height: 1.6;
-    }
-
-    .kop-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      margin-top: 20px;
-    }
-
+    .kop-title { max-width: 18ch; }
+    .kop-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; }
     .kop-meta span {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .04em;
-      color: var(--gold-100);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      opacity: .9;
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--gold-100);
+      display: inline-flex; align-items: center; gap: 6px; opacity: .9;
     }
+    .kop-meta span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--gold-300); }
 
-    .kop-meta span::before {
-      content: "";
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--gold-300);
-    }
-
-    .kop-stripe {
-      height: 3px;
-      margin-top: 24px;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--gold-300), transparent 70%);
-    }
-
-    .route {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      margin: 34px 0 6px;
-      padding: 0 4px;
-    }
-
-    .route-node {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--navy-500);
-      flex-shrink: 0;
-    }
-
-    .route-node.origin {
-      width: 10px;
-      height: 10px;
-      background: var(--gold-500);
-    }
-
-    .route-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--gold-500), var(--ink-200) 60%);
-    }
-
-    .route-line:last-of-type {
-      background: linear-gradient(90deg, var(--ink-200), var(--ink-200));
-    }
-
-    @media(max-width:600px) {
-      .route {
-        display: none;
-      }
-    }
+    .route { display: flex; align-items: center; gap: 0; margin: 34px 0 6px; padding: 0 4px; }
+    .route-node { width: 8px; height: 8px; border-radius: 50%; background: var(--maroon-600); flex-shrink: 0; }
+    .route-node.origin { width: 10px; height: 10px; background: var(--gold-500); }
+    .route-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold-500), var(--ink-200) 60%); }
+    .route-line:last-of-type { background: linear-gradient(90deg, var(--ink-200), var(--ink-200)); }
+    @media (max-width: 600px) { .route { display: none; } }
 
     .menu-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--ink-400);
-      margin: 14px 2px 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    @media(min-width:720px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .card {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      text-decoration: none;
-      color: inherit;
-      background: var(--white);
-      border: 1px solid var(--ink-200);
-      border-radius: 16px;
-      padding: 24px 22px;
-      box-shadow: 0 1px 2px rgba(11, 31, 77, .04);
-      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold-500), var(--navy-500));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform .2s ease;
-    }
-
-    .card:hover,
-    .card:focus-visible {
-      transform: translateY(-3px);
-      border-color: var(--navy-500);
-      box-shadow: 0 18px 36px -18px rgba(11, 31, 77, .35);
-      outline: none;
-    }
-
-    .card:hover::before,
-    .card:focus-visible::before {
-      transform: scaleX(1);
-    }
-
-    .card:focus-visible {
-      box-shadow: 0 0 0 3px var(--gold-300), 0 16px 32px -18px rgba(11, 31, 77, .35);
-    }
-
-    .card-letter {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 15px;
-      color: var(--navy-900);
-      background: var(--gold-100);
-      border: 1px solid var(--gold-300);
-    }
-
-    .card h2 {
-      font-family: var(--font-display);
-      font-size: 16.5px;
-      font-weight: 700;
-      margin: 0;
-      line-height: 1.35;
-    }
-
-    .card p {
-      font-size: 13px;
-      color: var(--ink-600);
-      margin: 0;
-      line-height: 1.55;
-      flex-grow: 1;
-    }
-
-    .card-cta {
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: .03em;
-      color: var(--navy-700);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .card-cta svg {
-      width: 13px;
-      height: 13px;
-      transition: transform .16s ease;
-    }
-
-    .card:hover .card-cta svg {
-      transform: translateX(3px);
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-400); margin: 14px 2px 14px;
     }
 
     .foot {
-      margin-top: 44px;
-      padding-top: 18px;
-      border-top: 1px solid var(--ink-200);
-      font-size: 12px;
-      color: var(--ink-400);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      justify-content: space-between;
+      margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--border);
+      font-size: 12px; color: var(--ink-400);
+      display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; align-items: center;
     }
-
-    .foot span {
-      font-family: var(--font-mono);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .card {
-        transition: none;
-      }
-
-      .card:hover {
-        transform: none;
-      }
-    }
+    .foot span { font-family: var(--font-mono); }
+    .foot img { width: 22px; height: 22px; border-radius: 50%; object-fit: contain; opacity: .85; }
+    .foot-brand { display: flex; align-items: center; gap: 8px; }
   </style>
 </head>
 
 <body>
-  <div class="topo" aria-hidden="true"></div>
+  <div class="topo-layer" aria-hidden="true"></div>
   <div class="wrap">
 
     <header class="kop">
@@ -390,8 +64,13 @@
         </svg>
         Struktur Korcam
       </a>
-      <p class="kop-eyebrow">KORCAM KKM · IKIP PGRI Bojonegoro</p>
-      <h1 class="kop-title">Portal Digital KKM Kecamatan Kedewan</h1>
+      <div class="kop-brand">
+        <img src="shared/img/logo-korcam.png" alt="Logo Korcam KKM IKIP PGRI Bojonegoro">
+        <div>
+          <p class="kop-eyebrow" style="margin:0 0 4px;">KORCAM KKM &middot; IKIP PGRI Bojonegoro</p>
+          <h1 class="kop-title" style="margin:0;">Portal Digital KKM<br>Kecamatan Kedewan</h1>
+        </div>
+      </div>
       <p class="kop-sub">Satu pintu masuk untuk tiga alat kerja lapangan Korcam, Kordes, dan kelompok KKM se-Kecamatan
         Kedewan.</p>
       <div class="kop-meta">
@@ -413,47 +92,36 @@
     </div>
 
     <p class="menu-label">Pilih Menu</p>
-    <nav class="grid">
+    <nav class="menu-grid">
 
-      <a class="card" href="proker/index.html">
-        <span class="card-letter">A</span>
-        <h2>Lapor &amp; Monitoring Proker</h2>
-        <p>Struktur Korcam, lapor progres proker mingguan per kelompok, dan dashboard pemantauan (Google Sheets).</p>
-        <span class="card-cta">Buka halaman
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </span>
+      <a class="menu-card" href="proker/index.html">
+        <span class="menu-letter">A</span>
+        <h3>Lapor &amp; Monitoring Proker</h3>
+        <p>Struktur Korcam, lapor progres proker mingguan per kelompok, dan dashboard pemantauan.</p>
+        <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
-      <a class="card" href="datawarga/index.html">
-        <span class="card-letter">B</span>
-        <h2>Data Rumah Warga</h2>
-        <p>Formulir pendataan kondisi rumah tangga per Desa &amp; Kelompok, lengkap unggah foto (Supabase) dan dashboard
-          admin.</p>
-        <span class="card-cta">Buka halaman
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </span>
+      <a class="menu-card" href="datawarga/index.html">
+        <span class="menu-letter">B</span>
+        <h3>Data Rumah Warga</h3>
+        <p>Formulir pendataan kondisi rumah tangga per Desa &amp; Kelompok, lengkap unggah foto dan dashboard admin.</p>
+        <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
-      <a class="card" href="survey/index.html">
-        <span class="card-letter">C</span>
-        <h2>Survey Potensi Kecamatan</h2>
-        <p>Formulir survei potensi wilayah — ekonomi, sosial, dan infrastruktur — untuk pemetaan awal Kecamatan Kedewan.
-        </p>
-        <span class="card-cta">Buka halaman
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
-        </span>
+      <a class="menu-card" href="survey/index.html">
+        <span class="menu-letter">C</span>
+        <h3>Survey Potensi Kecamatan</h3>
+        <p>Formulir survei potensi wilayah — ekonomi, sosial, dan infrastruktur — untuk pemetaan awal Kecamatan Kedewan.</p>
+        <span class="menu-link">Buka halaman &rarr;</span>
       </a>
 
     </nav>
 
     <div class="foot">
-      <span>KKM Kedewan · 2026</span>
+      <div class="foot-brand">
+        <img src="shared/img/logo-korcam.png" alt="">
+        <span>KKM Kedewan &middot; 2026</span>
+      </div>
       <span>Koordinator Kecamatan Kedewan KKM IKIP PGRI Bojonegoro</span>
     </div>
   </div>

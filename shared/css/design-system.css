@@ -1,0 +1,607 @@
+/* ============================================================================
+   PORTAL KKM KEDEWAN — DESIGN SYSTEM TERPUSAT
+   ----------------------------------------------------------------------------
+   SATU-SATUNYA sumber token warna, tipografi, dan komponen bersama untuk
+   SELURUH halaman (menu utama, struktur, proker, data warga, survey — baik
+   halaman publik maupun admin).
+
+   CARA PAKAI:
+   Link file ini di <head> SEBELUM stylesheet lokal masing-masing modul:
+     <link rel="stylesheet" href="../shared/css/design-system.css">
+     <link rel="stylesheet" href="css/style.css">   (kalau modul itu masih
+                                                       punya CSS spesifik halaman)
+
+   Semua nama variabel LAMA (--navy-900, --forest-900, --ink-800, dst) tetap
+   di-alias di sini supaya seluruh CSS modul yang sudah ada TIDAK PERLU
+   ditulis ulang total — cukup ganti isi token-nya jadi maroon di satu
+   tempat ini, dan seluruh portal otomatis ikut berubah.
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------------
+     PALET UTAMA — MAROON (gradasi gelap → terang)
+  --------------------------------------------------------------------- */
+  --maroon-950: #300910;
+  --maroon-900: #4A0E18;
+  --maroon-800: #641320;
+  --maroon-700: #7E1A29;
+  --maroon-600: #9C2233;
+  --maroon-500: #B92C3E;
+  --maroon-300: #D97C87;
+  --maroon-100: #F6E3E5;
+
+  /* Emas hangat sebagai warna aksen — pasangan klasik maroon & gold */
+  --gold-700: #8A5A16;
+  --gold-600: #A6801C;
+  --gold-500: #C9A227;
+  --gold-300: #E8C766;
+  --gold-100: #FBF3DA;
+
+  --ink-900: #1F1013;
+  --ink-800: #2A1418;
+  --ink-600: #5A4247;
+  --ink-400: #8D767A;
+  --ink-200: #D8C9CB;
+
+  --paper: #FBF5F5;
+  --paper-50: #FBF5F5;
+  --paper-100: #F3E6E7;
+  --paper-200: #ECD9DA;
+  --white: #FFFFFF;
+  --surface: #FFFFFF;
+  --bg: #FBF5F5;
+  --border: #E9D6D8;
+  --line: #E9D6D8;
+  --line-strong: #D8C0C3;
+  --ink-muted: #5A4247;
+
+  --success: #157A4F;
+  --success-bg: #E7F6EE;
+  --success-border: #B7E4CB;
+  --green-ok: #157A4F;
+
+  --error: #B23A3A;
+  --error-bg: #FCECEC;
+  --error-border: #F1C3C3;
+  --red-700: #B23A3A;
+  --red-100: #FCECEC;
+
+  --warn: #9A6B0A;
+  --warn-bg: #FBF1DC;
+  --warn-border: #EED9A6;
+
+  /* ---------------------------------------------------------------------
+     ALIAS — supaya semua modul lama (yang pakai nama variabel beda-beda)
+     otomatis ikut palet maroon tanpa perlu ganti tiap selector satu-satu.
+  --------------------------------------------------------------------- */
+  --navy-900: var(--maroon-900);
+  --navy-800: var(--maroon-800);
+  --navy-700: var(--maroon-700);
+  --navy-500: var(--maroon-600);
+  --navy-100: var(--maroon-100);
+
+  --forest-900: var(--maroon-900);
+  --forest-700: var(--maroon-700);
+  --forest-600: var(--maroon-600);
+
+  --ink-700: var(--ink-900);
+
+  --paper-50: var(--paper);
+
+  /* ---------------------------------------------------------------------
+     GRADASI — dipakai di semua "kop"/header letterhead & tombol utama
+  --------------------------------------------------------------------- */
+  --gradient-maroon: linear-gradient(135deg, var(--maroon-950) 0%, var(--maroon-800) 48%, var(--maroon-600) 100%);
+  --gradient-maroon-soft: linear-gradient(160deg, var(--maroon-800) 0%, var(--maroon-700) 55%, var(--maroon-600) 100%);
+  --gradient-gold: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+
+  /* ---------------------------------------------------------------------
+     TIPOGRAFI
+  --------------------------------------------------------------------- */
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Inter', monospace;
+
+  /* ---------------------------------------------------------------------
+     RADIUS & BAYANGAN
+  --------------------------------------------------------------------- */
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --shadow-card: 0 1px 2px rgba(74, 14, 24, 0.05), 0 12px 28px -14px rgba(74, 14, 24, 0.20);
+  --shadow-pop: 0 20px 45px -18px rgba(48, 9, 16, 0.45);
+
+  /* Alias --color-* — dipakai datawarga/css/admin.css */
+  --color-bg: var(--paper);
+  --color-surface: var(--white);
+  --color-border: var(--border);
+  --color-text: var(--ink-900);
+  --color-text-muted: var(--ink-600);
+  --color-primary: var(--maroon-700);
+  --color-primary-hover: var(--maroon-900);
+  --color-primary-soft: var(--maroon-100);
+  --color-danger: var(--error);
+  --color-success: var(--success);
+  --color-warning: var(--gold-600);
+  --radius-legacy: var(--radius);
+  --shadow-sm: var(--shadow-card);
+}
+
+/* ==========================================================================
+   RESET DASAR
+   ========================================================================== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+
+.app-shell,
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+/* Motif topografi tipis di latar belakang (dipakai beberapa halaman) */
+.topo-layer {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(122, 26, 41, 0.05), transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(201, 162, 39, 0.06), transparent 45%);
+}
+
+/* ==========================================================================
+   TOPBAR & TOMBOL "MENU UTAMA"
+   ========================================================================== */
+.topbar {
+  margin: 0 auto 14px;
+  max-width: 920px;
+  padding: 0 20px;
+}
+.app-shell .topbar,
+.container > .topbar { padding: 0; margin-bottom: 14px; }
+
+.back-link,
+.header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--maroon-800);
+  background: var(--gold-100);
+  border: 1.5px solid var(--gold-300);
+  padding: 8px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.back-link:hover,
+.header-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -10px rgba(74, 14, 24, 0.35);
+}
+
+/* ==========================================================================
+   KOP / LETTERHEAD — dipakai di setiap halaman modul
+   ========================================================================== */
+.kop {
+  position: relative;
+  background: var(--gradient-maroon);
+  border-radius: var(--radius-lg);
+  padding: 30px 34px 26px;
+  color: #fff;
+  box-shadow: var(--shadow-pop);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.kop::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(600px 260px at 88% -20%, rgba(232, 199, 102, 0.16), transparent 60%);
+  pointer-events: none;
+}
+.kop-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold-300);
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+.kop-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+.kop-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  max-width: 640px;
+  line-height: 1.5;
+}
+.kop-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+.kop-stripe {
+  height: 3px;
+  margin-top: 20px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-500), rgba(255, 255, 255, 0.15));
+}
+.kop-logo {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 5px;
+  object-fit: contain;
+  box-shadow: 0 6px 16px -6px rgba(0,0,0,.4);
+}
+.kop-head-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.kop-struktur-btn,
+.header-link-btn {
+  position: absolute;
+  top: 24px; right: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--gradient-gold);
+  color: var(--maroon-900);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 10px 22px -10px rgba(0,0,0,.35);
+  border: none;
+}
+.kop-struktur-btn svg { width: 15px; height: 15px; }
+@media (max-width: 640px) {
+  .kop-struktur-btn, .header-link-btn { position: static; margin-top: 14px; }
+}
+
+/* ==========================================================================
+   TOMBOL — satu keluarga untuk seluruh varian nama class lama
+   ========================================================================== */
+.btn,
+button.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  text-decoration: none;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary, .btn--primary,
+.btn-block, .btn--submit {
+  background: var(--gradient-maroon-soft);
+  color: #fff;
+  box-shadow: 0 12px 24px -12px rgba(74, 14, 24, 0.55);
+}
+.btn-primary:hover, .btn--primary:hover { box-shadow: 0 16px 30px -12px rgba(74, 14, 24, 0.6); transform: translateY(-1px); }
+
+.btn-gold, .btn--gold {
+  background: var(--gradient-gold);
+  color: var(--maroon-900);
+  box-shadow: 0 10px 22px -12px rgba(166, 128, 28, 0.55);
+}
+.btn-gold:hover, .btn--gold:hover { transform: translateY(-1px); }
+
+.btn-ghost, .btn--ghost, .btn-secondary, .btn-outline {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--ink-600);
+}
+.btn-ghost:hover, .btn--ghost:hover, .btn-secondary:hover, .btn-outline:hover {
+  background: var(--maroon-100);
+  color: var(--maroon-800);
+  border-color: var(--maroon-300);
+}
+
+.btn-outline-danger {
+  background: var(--error-bg);
+  border: 1.5px solid var(--error-border);
+  color: var(--error);
+}
+.btn-outline-danger:hover { background: var(--error); color: #fff; }
+
+.btn-block { width: 100%; }
+.btn:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* ==========================================================================
+   KARTU (generik) & KARTU MENU DI HALAMAN UTAMA
+   ========================================================================== */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+
+.card.login-card,
+.login-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  border: 1px solid var(--border);
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 34px 28px;
+}
+.login-card .brand-badge,
+.login-seal,
+.login-seal-fallback {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  padding: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--maroon-800);
+}
+.login-card h1 {
+  font-family: var(--font-display); font-weight: 800; font-size: 21px;
+  color: var(--maroon-900); margin: 0 0 4px;
+}
+.login-card .sub {
+  font-size: 13px; color: var(--ink-600); margin: 0 0 22px;
+}
+.login-shell {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: var(--gradient-maroon);
+}
+.login-error {
+  display: none; margin-top: 14px; font-size: 12.5px; font-weight: 600;
+  color: var(--error); background: var(--error-bg); border: 1px solid var(--error-border);
+  padding: 9px 12px; border-radius: 10px; text-align: left;
+}
+
+/* ==========================================================================
+   STATISTIK / STAT CARD
+   ========================================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 16px 14px;
+  text-align: center;
+  border-left: 4px solid var(--maroon-600);
+}
+.stat-card.gold { border-left-color: var(--gold-500); }
+.stat-card.warn { border-left-color: var(--warn); }
+.stat-card.danger { border-left-color: var(--error); }
+.stat-value, .stat-card .value {
+  font-family: var(--font-display); font-weight: 800; font-size: 24px; color: var(--maroon-900);
+}
+.stat-label, .stat-card .label {
+  font-size: 11px; color: var(--ink-400); font-weight: 600; margin-top: 4px;
+  text-transform: uppercase; letter-spacing: .03em;
+}
+@media (max-width: 640px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ==========================================================================
+   BADGE
+   ========================================================================== */
+.badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--maroon-800);
+  background: var(--gold-100);
+  border: 1px solid var(--gold-300);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.badge.brand { background: var(--maroon-100); color: var(--maroon-800); border-color: var(--maroon-300); }
+
+/* ==========================================================================
+   TAB SWITCHER
+   ========================================================================== */
+.tabs {
+  display: flex; gap: 6px; margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.tab-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-body); font-weight: 700; font-size: 13.5px;
+  color: var(--ink-400);
+  padding: 10px 6px; margin-bottom: -1px;
+  border-bottom: 2.5px solid transparent;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.tab-btn.active {
+  color: var(--maroon-800);
+  border-bottom-color: var(--maroon-700);
+}
+.tab-letter {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--paper-200); color: var(--ink-600);
+  font-size: 11px; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tab-btn.active .tab-letter { background: var(--maroon-700); color: #fff; }
+
+/* ==========================================================================
+   STEPPER (form multi-langkah, dipakai proker & survey)
+   ========================================================================== */
+.stepper {
+  display: flex; align-items: center; gap: 0; margin: 18px 0 24px; flex-wrap: wrap;
+}
+.step, .step-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 11.5px; font-weight: 700; color: var(--ink-400);
+}
+.step-circle {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--paper-200); color: var(--ink-600);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+}
+.step.active .step-circle, .step-item.active .step-circle {
+  background: var(--maroon-700); color: #fff;
+}
+.step.active, .step-item.active { color: var(--maroon-800); }
+.step-line { flex: 1; height: 2px; background: var(--border); min-width: 20px; }
+
+/* ==========================================================================
+   FORM
+   ========================================================================== */
+.field { margin-bottom: 16px; text-align: left; }
+.field label, label {
+  display: block; font-size: 12.5px; font-weight: 700; color: var(--ink-600);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: .02em;
+}
+input[type="text"], input[type="password"], input[type="email"],
+input[type="tel"], input[type="number"], input[type="url"],
+select, textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  background: var(--bg);
+  color: var(--ink-900);
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--maroon-600);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--maroon-100);
+}
+.field__error, .field-error {
+  font-size: 12px; color: var(--error); margin-top: 5px; min-height: 14px;
+}
+.req { color: var(--error); }
+
+/* ==========================================================================
+   TABEL
+   ========================================================================== */
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+thead th {
+  text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .03em; color: var(--maroon-800);
+  background: var(--maroon-100);
+  padding: 10px 12px;
+}
+thead th:first-child { border-radius: 8px 0 0 8px; }
+thead th:last-child { border-radius: 0 8px 8px 0; }
+tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--ink-800); }
+tbody tr:hover { background: var(--paper-50); }
+
+/* ==========================================================================
+   TOAST / EMPTY STATE / LOADING
+   ========================================================================== */
+.toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 20px);
+  background: var(--maroon-900); color: #fff; font-size: 13px; font-weight: 600;
+  padding: 12px 18px; border-radius: 999px; box-shadow: var(--shadow-pop);
+  opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 1000;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast-error, .toast.toast-error { background: var(--error); }
+
+.muted { color: var(--ink-400); }
+.small { font-size: 12.5px; }
+.empty-state, #data-empty {
+  text-align: center; padding: 40px 20px; color: var(--ink-400); font-size: 13.5px;
+}
+
+/* ==========================================================================
+   MENU UTAMA — kartu pilihan modul (dipakai hub/index.html)
+   ========================================================================== */
+.menu-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.menu-card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  padding: 24px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 40px -20px rgba(74,14,24,.28);
+}
+.menu-card .menu-letter {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--gold-100); border: 1px solid var(--gold-300);
+  color: var(--maroon-800);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 17px;
+  margin-bottom: 16px;
+}
+.menu-card h3 {
+  font-family: var(--font-display); font-weight: 800; font-size: 17px;
+  color: var(--maroon-900); margin: 0 0 8px;
+}
+.menu-card p {
+  font-size: 13.5px; color: var(--ink-600); line-height: 1.55; margin: 0 0 16px;
+}
+.menu-card .menu-link {
+  font-size: 13px; font-weight: 700; color: var(--maroon-700);
+}
+@media (max-width: 760px) { .menu-grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   RESPONSIVE — kop & topbar di layar kecil
+   ========================================================================== */
+@media (max-width: 640px) {
+  .kop { padding: 24px 20px 20px; }
+  .kop-title { font-size: 21px; }
+}
