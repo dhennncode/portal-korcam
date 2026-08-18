@@ -57,16 +57,31 @@ body {
 /* ==========================================================================
    Kop / letterhead — selaras dengan Portal KKM & Struktur Korcam
    ========================================================================== */
-.topbar { margin: 0 0 16px; }
+.topbar {
+    margin: 0 0 16px;
+}
+
 .back-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-body); font-size: 12px; font-weight: 600;
-    color: var(--navy-900); background: var(--gold-100); border: 1px solid var(--gold-500);
-    padding: 7px 14px; border-radius: 999px; text-decoration: none;
-    box-shadow: 0 4px 10px rgba(11,31,77,.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy-900);
+    background: var(--gold-100);
+    border: 1px solid var(--gold-500);
+    padding: 7px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(11, 31, 77, .15);
     transition: transform .15s ease, background .15s ease;
 }
-.back-link:hover { background: var(--gold-300); transform: translateY(-1px); }
+
+.back-link:hover {
+    background: var(--gold-300);
+    transform: translateY(-1px);
+}
 
 .kop {
     position: relative;
@@ -80,9 +95,13 @@ body {
 
 .kop::after {
     content: "";
-    position: absolute; right: -40px; top: -40px; width: 200px; height: 200px;
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,199,102,.18), transparent 70%);
+    background: radial-gradient(circle, rgba(232, 199, 102, .18), transparent 70%);
     pointer-events: none;
 }
 
@@ -112,7 +131,9 @@ body {
 }
 
 .kop-stripe {
-    height: 3px; margin-top: 20px; border-radius: 2px;
+    height: 3px;
+    margin-top: 20px;
+    border-radius: 2px;
     background: linear-gradient(90deg, var(--gold-300), transparent 70%);
 }
 
@@ -126,8 +147,8 @@ body {
 .stepper__list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 3px;
     margin: 0 0 10px;
     padding: 0;
 }
@@ -199,7 +220,10 @@ body {
 }
 
 @media (max-width: 480px) {
-    .stepper__label { display: none; }
+    .stepper__label {
+        display: none;
+    }
+
     .stepper__item[data-state="active"] .stepper__label {
         display: block;
         position: absolute;
@@ -208,8 +232,32 @@ body {
         font-size: 10px;
         white-space: nowrap;
     }
-    .stepper__item { position: relative; }
-    .stepper { margin-bottom: 30px; }
+
+    .stepper__item {
+        position: relative;
+    }
+
+    .stepper {
+        margin-bottom: 30px;
+    }
+
+    .stepper__marker {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 360px) {
+    .stepper__list {
+        gap: 2px;
+    }
+
+    .stepper__marker {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
 }
 
 /* ==========================================================================
@@ -270,6 +318,25 @@ body {
     margin: 0;
     font-size: 13px;
     color: var(--ink-600);
+}
+
+/* Sub-heading di dalam satu form-card panjang (BARU — dipakai step Detail Tambahan) */
+.form-subhead {
+    margin: 24px 0 14px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--navy-700);
+}
+
+.form-subhead:first-of-type {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
 }
 
 /* Fields */
@@ -352,6 +419,43 @@ body {
 .select-wrap select {
     appearance: none;
     padding-right: 36px;
+}
+
+/* Checkbox group — dipakai untuk field "Fasilitas" (BARU) */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 13px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: #FCFDFF;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-800);
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    margin: 0;
+}
+
+.checkbox-item:has(input:checked) {
+    border-color: var(--navy-500);
+    background: var(--navy-100);
+    color: var(--ink-900);
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--navy-500);
+    margin: 0;
+    flex: none;
 }
 
 .field__hint {

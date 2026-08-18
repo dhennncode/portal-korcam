@@ -21,7 +21,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 /* ---------------------------------------------------------------------------
    State
 --------------------------------------------------------------------------- */
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 8;
 let currentStep = 1;
 
 const state = {
@@ -39,6 +39,18 @@ const state = {
     kondisi: "",
     permasalahan: "",
     photos: [], // { file, previewUrl }
+    // ===== Field tambahan (semua opsional) — jangan menimpa field di atas =====
+    jarak_kecamatan: "",
+    kondisi_jalan: "",
+    akses_kendaraan: "",
+    fasilitas: [], // array string, digabung jadi 1 kolom teks saat kirim
+    jam_operasional: "",
+    tiket_masuk: "",
+    pengelola: "",
+    kontak_pengelola: "",
+    keunikan: "",
+    rencana_pengembangan: "",
+    kendala_utama: "",
 };
 
 /* ---------------------------------------------------------------------------
@@ -224,12 +236,37 @@ function validateStep(step) {
         }
     }
 
+    // Step 7 — Detail Tambahan: sebagian wajib (data yang mudah diobservasi &
+    // penting untuk buku), sebagian opsional (data yang tidak selalu tersedia).
+    if (step === 7) {
+        state.kondisi_jalan = document.getElementById("kondisiJalan").value;
+        state.akses_kendaraan = document.getElementById("aksesKendaraan").value;
+        state.jarak_kecamatan = document.getElementById("jarakKecamatan").value.trim();
+        state.fasilitas = Array.from(document.querySelectorAll('input[name="fasilitas"]:checked')).map((el) => el.value);
+        state.pengelola = document.getElementById("pengelola").value.trim();
+        state.jam_operasional = document.getElementById("jamOperasional").value.trim();
+        state.tiket_masuk = document.getElementById("tiketMasuk").value.trim();
+        state.kontak_pengelola = document.getElementById("kontakPengelola").value.trim();
+        state.keunikan = document.getElementById("keunikan").value.trim();
+        state.kendala_utama = document.getElementById("kendalaUtama").value.trim();
+        state.rencana_pengembangan = document.getElementById("rencanaPengembangan").value.trim();
+
+        need("kondisiJalan", state.kondisi_jalan, "Pilih kondisi jalan terlebih dahulu.");
+        need("aksesKendaraan", state.akses_kendaraan, "Pilih akses kendaraan terlebih dahulu.");
+        if (state.fasilitas.length === 0) {
+            showFieldError("fasilitas", "Pilih minimal satu fasilitas (atau \u201cTidak ada fasilitas\u201d).");
+            valid = false;
+        }
+        need("pengelola", state.pengelola, "Pengelola objek wajib diisi.");
+        need("keunikan", state.keunikan, "Keunikan objek wajib diisi.");
+    }
+
     if (!valid) scrollToFirstError();
     return valid;
 }
 
 function validateAllSteps() {
-    for (let s = 1; s <= 6; s++) {
+    for (let s = 1; s <= 7; s++) {
         if (!validateStep(s)) {
             goToStep(s);
             return false;
@@ -238,15 +275,20 @@ function validateAllSteps() {
     return true;
 }
 
+
 /* ---------------------------------------------------------------------------
    Live-clear errors while typing
 --------------------------------------------------------------------------- */
-["namaSurveyor", "noWhatsapp", "kelompokKkm", "desa", "dusun", "namaObjek", "kategori", "linkLokasi", "potensi", "kondisi"]
+["namaSurveyor", "noWhatsapp", "kelompokKkm", "desa", "dusun", "namaObjek", "kategori", "linkLokasi", "potensi", "kondisi", "kondisiJalan", "aksesKendaraan", "pengelola", "keunikan"]
     .forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.addEventListener("input", () => clearFieldError(id));
         if (el) el.addEventListener("change", () => clearFieldError(id));
     });
+
+document.querySelectorAll('input[name="fasilitas"]').forEach((el) => {
+    el.addEventListener("change", () => clearFieldError("fasilitas"));
+});
 
 document.getElementById("noWhatsapp").addEventListener("input", (e) => {
     e.target.value = e.target.value.replace(/[^0-9]/g, "");
@@ -387,6 +429,17 @@ function renderSummary() {
         ["Kondisi", state.kondisi],
         ["Permasalahan", state.permasalahan || "\u2014"],
         ["Jumlah Foto", `${state.photos.length} foto`],
+        ["Jarak dari Kecamatan", state.jarak_kecamatan || "\u2014"],
+        ["Kondisi Jalan", state.kondisi_jalan || "\u2014"],
+        ["Akses Kendaraan", state.akses_kendaraan || "\u2014"],
+        ["Fasilitas", state.fasilitas.length ? state.fasilitas.join(", ") : "\u2014"],
+        ["Jam Operasional", state.jam_operasional || "\u2014"],
+        ["Tiket Masuk", state.tiket_masuk || "\u2014"],
+        ["Pengelola", state.pengelola || "\u2014"],
+        ["Kontak Pengelola", state.kontak_pengelola || "\u2014"],
+        ["Keunikan", state.keunikan || "\u2014"],
+        ["Rencana Pengembangan", state.rencana_pengembangan || "\u2014"],
+        ["Kendala Utama", state.kendala_utama || "\u2014"],
     ];
 
     summaryList.innerHTML = rows.map(([label, value, cls]) => `
@@ -462,6 +515,18 @@ async function insertSurveyRow(fotoUrls) {
         kondisi: state.kondisi,
         permasalahan: state.permasalahan || null,
         foto_urls: fotoUrls,
+        // ===== Kolom tambahan (semua opsional, kirim null jika kosong) =====
+        jarak_kecamatan: state.jarak_kecamatan || null,
+        kondisi_jalan: state.kondisi_jalan || null,
+        akses_kendaraan: state.akses_kendaraan || null,
+        fasilitas: state.fasilitas.length ? state.fasilitas.join(", ") : null,
+        jam_operasional: state.jam_operasional || null,
+        tiket_masuk: state.tiket_masuk || null,
+        pengelola: state.pengelola || null,
+        kontak_pengelola: state.kontak_pengelola || null,
+        keunikan: state.keunikan || null,
+        rencana_pengembangan: state.rencana_pengembangan || null,
+        kendala_utama: state.kendala_utama || null,
     };
 
     const { error } = await supabaseClient.from(TABLE_NAME).insert(payload);
@@ -508,6 +573,12 @@ btnEntriBaru.addEventListener("click", () => {
     state.potensi = state.kondisi = state.permasalahan = "";
     state.photos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
     state.photos = [];
+
+    state.jarak_kecamatan = state.kondisi_jalan = state.akses_kendaraan = "";
+    state.fasilitas = [];
+    state.jam_operasional = state.tiket_masuk = state.pengelola = state.kontak_pengelola = "";
+    state.keunikan = state.rencana_pengembangan = state.kendala_utama = "";
+    document.querySelectorAll('input[name="fasilitas"]').forEach((el) => { el.checked = false; });
 
     renderPhotoGrid();
     setGpsState("idle", "Lokasi belum diambil", "Tekan tombol di atas saat kamu sudah berada tepat di lokasi objek.");

@@ -49,6 +49,8 @@
                 <li class="stepper__item" data-step="6"><span class="stepper__marker">F</span><span
                         class="stepper__label">Foto</span></li>
                 <li class="stepper__item" data-step="7"><span class="stepper__marker">G</span><span
+                        class="stepper__label">Detail Tambahan</span></li>
+                <li class="stepper__item" data-step="8"><span class="stepper__marker">H</span><span
                         class="stepper__label">Kirim</span></li>
             </ol>
             <div class="stepper__bar">
@@ -355,6 +357,139 @@
                                 <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>Kembali</button>
+                        <button type="button" class="btn btn--primary" data-next>Lanjut ke Detail Tambahan<svg
+                                class="btn__icon" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></button>
+                    </div>
+                </section>
+
+                <!-- STEP G — Detail Tambahan (BARU, gabungan aksesibilitas, fasilitas, operasional & potensi) -->
+                <section class="form-card" data-step-panel="7" hidden aria-labelledby="h-step7">
+                    <header class="form-card__head">
+                        <span class="form-card__index">G</span>
+                        <div>
+                            <h2 id="h-step7">Detail Tambahan</h2>
+                            <p>Data ini yang bikin buku potensi wisata jadi lengkap &mdash; isi sesuai kondisi di
+                                lapangan.</p>
+                        </div>
+                    </header>
+
+                    <h3 class="form-subhead">Aksesibilitas</h3>
+
+                    <div class="field">
+                        <label for="kondisiJalan">Kondisi Jalan Menuju Lokasi <span class="req">*</span></label>
+                        <div class="select-wrap">
+                            <select id="kondisiJalan" name="kondisi_jalan">
+                                <option value="" disabled selected>Pilih kondisi jalan&hellip;</option>
+                                <option value="Aspal mulus">Aspal mulus</option>
+                                <option value="Aspal rusak">Aspal rusak</option>
+                                <option value="Makadam/berbatu">Makadam/berbatu</option>
+                                <option value="Tanah">Tanah</option>
+                                <option value="Setapak">Setapak</option>
+                            </select>
+                        </div>
+                        <p class="field__error" id="err-kondisiJalan"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="aksesKendaraan">Kendaraan yang Bisa Mengakses <span class="req">*</span></label>
+                        <div class="select-wrap">
+                            <select id="aksesKendaraan" name="akses_kendaraan">
+                                <option value="" disabled selected>Pilih akses kendaraan&hellip;</option>
+                                <option value="Motor & mobil">Motor &amp; mobil</option>
+                                <option value="Motor saja">Motor saja</option>
+                                <option value="Jalan kaki saja">Jalan kaki saja</option>
+                            </select>
+                        </div>
+                        <p class="field__error" id="err-aksesKendaraan"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="jarakKecamatan">Jarak dari Kantor Kecamatan <span class="opt">(opsional,
+                                perkiraan)</span></label>
+                        <input type="text" id="jarakKecamatan" name="jarak_kecamatan" placeholder="Contoh: 5 km">
+                    </div>
+
+                    <h3 class="form-subhead">Fasilitas</h3>
+
+                    <div class="field" id="fasilitas">
+                        <label>Fasilitas di Lokasi <span class="req">*</span> <span class="opt">(pilih minimal satu,
+                                boleh lebih dari satu)</span></label>
+                        <div class="checkbox-group" id="fasilitasGroup">
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Parkir"><span>Parkir</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Toilet"><span>Toilet</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Warung/Kuliner"><span>Warung/Kuliner</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Tempat Ibadah"><span>Tempat Ibadah</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Gazebo/Tempat Istirahat"><span>Gazebo/Tempat Istirahat</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Homestay/Penginapan"><span>Homestay/Penginapan</span></label>
+                            <label class="checkbox-item"><input type="checkbox" name="fasilitas"
+                                    value="Tidak ada fasilitas"><span>Tidak ada fasilitas</span></label>
+                        </div>
+                        <p class="field__error" id="err-fasilitas"></p>
+                    </div>
+
+                    <h3 class="form-subhead">Operasional &amp; Pengelola</h3>
+
+                    <div class="field">
+                        <label for="pengelola">Pengelola Objek <span class="req">*</span></label>
+                        <input type="text" id="pengelola" name="pengelola"
+                            placeholder="Contoh: Warga pribadi / Desa / BUMDes / Pertamina / Tidak ada pengelola khusus">
+                        <p class="field__error" id="err-pengelola"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="jamOperasional">Jam Operasional <span class="opt">(opsional)</span></label>
+                        <input type="text" id="jamOperasional" name="jam_operasional"
+                            placeholder="Contoh: 07.00 - 17.00 WIB / 24 jam">
+                    </div>
+
+                    <div class="field">
+                        <label for="tiketMasuk">Tiket Masuk / Retribusi <span class="opt">(opsional)</span></label>
+                        <input type="text" id="tiketMasuk" name="tiket_masuk" placeholder="Contoh: Gratis / Rp5.000">
+                    </div>
+
+                    <div class="field">
+                        <label for="kontakPengelola">Kontak Pengelola <span class="opt">(opsional)</span></label>
+                        <input type="text" id="kontakPengelola" name="kontak_pengelola"
+                            placeholder="Nama & nomor WhatsApp pengelola/penjaga">
+                    </div>
+
+                    <h3 class="form-subhead">Potensi Pengembangan</h3>
+
+                    <div class="field">
+                        <label for="keunikan">Keunikan Dibanding Objek Sejenis <span class="req">*</span></label>
+                        <textarea id="keunikan" name="keunikan" rows="3"
+                            placeholder="Apa yang membedakan objek ini dari objek sejenis di desa lain"></textarea>
+                        <p class="field__error" id="err-keunikan"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="kendalaUtama">Kendala Utama Pengembangan <span class="opt">(opsional)</span></label>
+                        <textarea id="kendalaUtama" name="kendala_utama" rows="3"
+                            placeholder="Mis. modal, SDM, perizinan, akses"></textarea>
+                    </div>
+
+                    <div class="field">
+                        <label for="rencanaPengembangan">Rencana Pengembangan dari Desa <span
+                                class="opt">(opsional)</span></label>
+                        <textarea id="rencanaPengembangan" name="rencana_pengembangan" rows="3"
+                            placeholder="Jika sudah ada rencana dari desa, mis. di RAPBDes"></textarea>
+                    </div>
+
+                    <div class="form-card__nav">
+                        <button type="button" class="btn btn--ghost" data-prev><svg class="btn__icon"
+                                viewBox="0 0 20 20" fill="none">
+                                <path d="M16 10H4M8 5l-5 5 5 5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>Kembali</button>
                         <button type="button" class="btn btn--primary" data-next>Lanjut ke Ringkasan<svg
                                 class="btn__icon" viewBox="0 0 20 20" fill="none">
                                 <path d="M4 10h12M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.8"
@@ -363,12 +498,12 @@
                     </div>
                 </section>
 
-                <!-- STEP G — Ringkasan & Kirim -->
-                <section class="form-card" data-step-panel="7" hidden aria-labelledby="h-step7">
+                <!-- STEP H — Ringkasan & Kirim -->
+                <section class="form-card" data-step-panel="8" hidden aria-labelledby="h-step8">
                     <header class="form-card__head">
-                        <span class="form-card__index">G</span>
+                        <span class="form-card__index">H</span>
                         <div>
-                            <h2 id="h-step7">Ringkasan &amp; Kirim</h2>
+                            <h2 id="h-step8">Ringkasan &amp; Kirim</h2>
                             <p>Periksa kembali data sebelum dikirim ke server.</p>
                         </div>
                     </header>
