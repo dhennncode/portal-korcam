@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Laporan Potensi Kecamatan Kedewan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/design-system.css">
+    <style>
+        /* ==========================================================================
+           LAPORAN PDF — file berdiri sendiri, TIDAK menyentuh style.css survey
+           yang sudah ada. Aman ditambahkan begitu saja ke folder survey/.
+           ========================================================================== */
+
+        body {
+            background: #6b6b6b;
+        }
+
+        /* ---------------- Toolbar (hanya tampil di layar, hilang saat cetak/PDF) ---------------- */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--gradient-maroon);
+            color: #fff;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+        }
+
+        .toolbar__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 15px;
+            margin-right: auto;
+        }
+
+        .toolbar__title small {
+            display: block;
+            font-weight: 500;
+            font-size: 11.5px;
+            opacity: .8;
+        }
+
+        .toolbar select {
+            padding: 8px 11px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 255, 255, .35);
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 13px;
+        }
+
+        .toolbar select option {
+            color: #1F1013;
+        }
+
+        .toolbar button,
+        .toolbar a.btn-link {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-print {
+            background: var(--gradient-gold);
+            color: #3A2A05;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, .35) !important;
+        }
+
+        #load-status {
+            font-size: 12px;
+            color: #fff;
+            opacity: .85;
+            width: 100%;
+        }
+
+        /* ---------------- Kanvas kertas A4 (tampilan layar) ---------------- */
+        .paper-stack {
+            max-width: 820px;
+            margin: 26px auto 60px;
+            padding: 0 14px;
+        }
+
+        .sheet {
+            background: #fff;
+            width: 100%;
+            min-height: 1123px;
+            /* rasio dekat A4 di layar */
+            margin: 0 0 26px;
+            padding: 56px 58px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+            position: relative;
+            color: var(--ink-900);
+        }
+
+        /* ---------------- Cover ---------------- */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 1010px;
+        }
+
+        .cover__logo {
+            width: 118px;
+            height: 118px;
+            object-fit: contain;
+            margin-bottom: 22px;
+        }
+
+        .cover__eyebrow {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 12.5px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: var(--maroon-700);
+            margin: 0 0 14px;
+        }
+
+        .cover__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 34px;
+            line-height: 1.2;
+            color: var(--maroon-900);
+            margin: 0 0 14px;
+            max-width: 560px;
+        }
+
+        .cover__sub {
+            font-size: 15px;
+            color: var(--ink-600);
+            max-width: 460px;
+            margin: 0 0 34px;
+            line-height: 1.6;
+        }
+
+        .cover__rule {
+            width: 90px;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--gradient-gold);
+            margin: 0 0 34px;
+        }
+
+        .cover__meta {
+            display: flex;
+            gap: 34px;
+            margin-top: 10px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            width: 100%;
+            max-width: 480px;
+            justify-content: center;
+        }
+
+        .cover__meta div {
+            text-align: center;
+        }
+
+        .cover__meta dt {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--ink-400);
+            margin-bottom: 4px;
+        }
+
+        .cover__meta dd {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--maroon-900);
+        }
+
+        .cover__footer {
+            position: absolute;
+            bottom: 46px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--ink-400);
+        }
+
+        /* ---------------- Header/footer halaman isi ---------------- */
+        .sheet__kop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding-bottom: 14px;
+            margin-bottom: 26px;
+            border-bottom: 2px solid var(--maroon-800);
+        }
+
+        .sheet__kop-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sheet__kop-left img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+        }
+
+        .sheet__kop-left b {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--maroon-900);
+            display: block;
+        }
+
+        .sheet__kop-left span {
+            font-size: 10.5px;
+            color: var(--ink-400);
+        }
+
+        .sheet__kop-right {
+            font-size: 10.5px;
+            color: var(--ink-400);
+            text-align: right;
+        }
+
+        .sheet__foot {
+            position: absolute;
+            bottom: 24px;
+            left: 58px;
+            right: 58px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--ink-400);
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sheet h2.section-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--maroon-900);
+            margin: 0 0 4px;
+        }
+
+        .section-desc {
+            font-size: 12.5px;
+            color: var(--ink-400);
+            margin: 0 0 22px;
+        }
+
+        /* ---------------- Ringkasan / statistik ---------------- */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        .stat-box {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            text-align: center;
+            background: var(--paper-50);
+        }
+
+        .stat-box b {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--maroon-800);
+        }
+
+        .stat-box span {
+            font-size: 10px;
+            color: var(--ink-400);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        table.rekap {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 22px;
+            font-size: 12.5px;
+        }
+
+        table.rekap th,
+        table.rekap td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table.rekap th {
+            background: var(--maroon-100);
+            color: var(--maroon-900);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        table.rekap td.num,
+        table.rekap th.num {
+            text-align: right;
+            width: 70px;
+        }
+
+        table.rekap tr:last-child td {
+            font-weight: 800;
+            border-top: 2px solid var(--maroon-800);
+            border-bottom: none;
+        }
+
+        /* ---------------- Blok per desa ---------------- */
+        .desa-heading {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            background: var(--gradient-maroon-soft);
+            padding: 9px 16px;
+            border-radius: 10px;
+            margin: 0 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .desa-heading span.count {
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .18);
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        /* ---------------- Kartu objek ---------------- */
+        .obj-card {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin-bottom: 16px;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .obj-card__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .obj-card__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 15.5px;
+            color: var(--maroon-900);
+            margin: 0 0 2px;
+        }
+
+        .obj-card__loc {
+            font-size: 11.5px;
+            color: var(--ink-400);
+            margin: 0;
+        }
+
+        .obj-badge {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--maroon-800);
+            background: var(--gold-100);
+            border: 1px solid var(--gold-300);
+            padding: 3px 9px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .obj-photos {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .obj-photos img {
+            width: 96px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .obj-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px 18px;
+            margin-bottom: 10px;
+        }
+
+        .obj-grid dt {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+            color: var(--ink-400);
+        }
+
+        .obj-grid dd {
+            margin: 1px 0 6px;
+            font-size: 12px;
+            color: var(--ink-900);
+            font-weight: 600;
+        }
+
+        .obj-text p {
+            font-size: 12px;
+            color: var(--ink-600);
+            line-height: 1.55;
+            margin: 0 0 6px;
+        }
+
+        .obj-text b {
+            color: var(--ink-900);
+        }
+
+        .obj-chips span {
+            display: inline-block;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--ink-800);
+            background: var(--paper-100);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 2px 9px;
+            margin: 0 4px 4px 0;
+        }
+
+        #report-root {
+            display: none;
+        }
+
+        #report-root.ready {
+            display: block;
+        }
+
+        #empty-state {
+            text-align: center;
+            color: #fff;
+            padding: 60px 20px;
+            display: none;
+        }
+
+        /* ---------------- Gerbang login ringan (pakai sesi yang sama dengan admin.html) ---------------- */
+        .login-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(1200px 600px at 50% -10%, var(--maroon-600) 0%, var(--maroon-900) 55%, #1F0509 100%);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 380px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop);
+            padding: 32px 26px;
+            text-align: center;
+        }
+
+        .login-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            margin: 0 auto 12px;
+            display: block;
+        }
+
+        .login-card h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--maroon-900);
+            margin: 0 0 4px;
+        }
+
+        .login-card .sub {
+            font-size: 13px;
+            color: var(--ink-600);
+            margin: 0 0 22px;
+        }
+
+        .login-card .field {
+            text-align: left;
+            margin-bottom: 14px;
+        }
+
+        .login-card label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--ink-600);
+            margin-bottom: 6px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border);
+            font-family: var(--font-body);
+            font-size: 14.5px;
+            background: var(--bg);
+            color: var(--ink-900);
+        }
+
+        .login-card input:focus {
+            outline: none;
+            border-color: var(--maroon-500);
+            background: var(--surface);
+        }
+
+        .login-card button {
+            width: 100%;
+            margin-top: 4px;
+            padding: 12px;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            background: var(--gradient-maroon);
+        }
+
+        .login-error {
+            display: none;
+            margin-top: 12px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--error);
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            padding: 8px 10px;
+            border-radius: 8px;
+        }
+
+        /* ---------------- Cetak / Simpan sebagai PDF ---------------- */
+        @media print {
+            .toolbar {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .paper-stack {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sheet {
+                box-shadow: none;
+                margin: 0;
+                min-height: 0;
+                page-break-after: always;
+                width: auto;
+                padding: 14mm 16mm;
+            }
+
+            .sheet:last-child {
+                page-break-after: auto;
+            }
+
+            .cover {
+                min-height: 240mm;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-shell" id="login-shell">
+        <div class="login-card">
+            <img src="../shared/img/logo-korcam.png" alt="Logo Korcam KKM">
+            <h1>Akses Laporan</h1>
+            <p class="sub">Khusus tim internal &middot; Laporan Potensi Kecamatan Kedewan</p>
+            <form id="login-form">
+                <div class="field">
+                    <label for="login-nim">NIM</label>
+                    <input type="text" id="login-nim" placeholder="24320034" required autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="login-sandi">Sandi</label>
+                    <input type="password" id="login-sandi" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                </div>
+                <button type="submit">Masuk</button>
+                <div class="login-error" id="login-error">NIM atau sandi salah.</div>
+            </form>
+        </div>
+    </div>
+
+    <div id="laporan-shell" style="display:none;">
+        <div class="toolbar">
+            <div class="toolbar__title">Laporan Potensi Wisata Kecamatan Kedewan
+                <small>Pilih cakupan laporan, lalu unduh sebagai PDF</small>
+            </div>
+            <select id="filter-desa"></select>
+            <select id="filter-kategori"></select>
+            <a class="btn-link btn-back" href="admin.html">&larr; Kembali</a>
+            <button class="btn-print" id="print-btn">&#128190; Unduh sebagai PDF</button>
+            <p id="load-status">Memuat data&hellip;</p>
+        </div>
+
+        <div class="paper-stack">
+            <div id="report-root"></div>
+            <p id="empty-state">Belum ada data untuk cakupan yang dipilih.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="laporan.js"></script>
+</body>
+
+</html>

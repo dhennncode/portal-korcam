@@ -245,6 +245,8 @@ function renderList() {
                 ${statusPeta(r)}
             </div>
 
+            ${detailTambahanHtml(r)}
+
             ${photosHtml}
         </article>`;
     }).join("");
@@ -255,6 +257,44 @@ function renderList() {
     listEl.querySelectorAll(".icon-btn.danger").forEach((btn) => {
         btn.addEventListener("click", () => deleteEntry(btn.dataset.id));
     });
+}
+
+/* ---------------------------------------------------------------------------
+   Detail Tambahan (BARU) — aksesibilitas, fasilitas, operasional & potensi.
+   Dirender hanya jika minimal satu field-nya terisi, supaya entri lama
+   (sebelum field ini ada) tetap tampil rapi tanpa baris kosong.
+--------------------------------------------------------------------------- */
+function detailTambahanHtml(r) {
+    const akses = [
+        r.kondisi_jalan ? `Jalan: ${escapeHtml(r.kondisi_jalan)}` : null,
+        r.akses_kendaraan ? `Akses: ${escapeHtml(r.akses_kendaraan)}` : null,
+        r.jarak_kecamatan ? `Jarak dari kecamatan: ${escapeHtml(r.jarak_kecamatan)}` : null,
+    ].filter(Boolean);
+
+    const operasional = [
+        r.jam_operasional ? `Jam: ${escapeHtml(r.jam_operasional)}` : null,
+        r.tiket_masuk ? `Tiket: ${escapeHtml(r.tiket_masuk)}` : null,
+        r.pengelola ? `Pengelola: ${escapeHtml(r.pengelola)}` : null,
+        r.kontak_pengelola ? `Kontak: ${escapeHtml(r.kontak_pengelola)}` : null,
+    ].filter(Boolean);
+
+    const fasilitas = r.fasilitas ? String(r.fasilitas).split(",").map((s) => s.trim()).filter(Boolean) : [];
+
+    const potensiDev = [
+        r.keunikan ? `<p><strong>Keunikan:</strong> ${escapeHtml(r.keunikan)}</p>` : "",
+        r.kendala_utama ? `<p><strong>Kendala:</strong> ${escapeHtml(r.kendala_utama)}</p>` : "",
+        r.rencana_pengembangan ? `<p><strong>Rencana pengembangan:</strong> ${escapeHtml(r.rencana_pengembangan)}</p>` : "",
+    ].join("");
+
+    if (!akses.length && !operasional.length && !fasilitas.length && !potensiDev) return "";
+
+    return `
+    <div class="detail-tambahan">
+        ${akses.length ? `<p class="dt-line"><span class="dt-tag">Akses</span> ${akses.join(" &middot; ")}</p>` : ""}
+        ${fasilitas.length ? `<p class="dt-line"><span class="dt-tag">Fasilitas</span> ${fasilitas.map((f) => `<span class="dt-chip">${escapeHtml(f)}</span>`).join("")}</p>` : ""}
+        ${operasional.length ? `<p class="dt-line"><span class="dt-tag">Operasional</span> ${operasional.join(" &middot; ")}</p>` : ""}
+        ${potensiDev}
+    </div>`;
 }
 
 /* ---------------------------------------------------------------------------
@@ -278,7 +318,7 @@ async function deleteEntry(id) {
                 return idx >= 0 ? u.slice(idx + marker.length) : null;
             }).filter(Boolean);
             if (paths.length) {
-                supabaseClient.storage.from(STORAGE_BUCKET).remove(paths).catch(() => {});
+                supabaseClient.storage.from(STORAGE_BUCKET).remove(paths).catch(() => { });
             }
         }
 
@@ -314,7 +354,10 @@ function exportCsv() {
     if (!rows.length) { showToast("Tidak ada data untuk diekspor.", true); return; }
 
     const cols = ["created_at", "nama_surveyor", "no_whatsapp", "kelompok_kkm", "desa", "dusun",
-        "nama_objek", "kategori", "latitude", "longitude", "link_lokasi", "potensi", "kondisi", "permasalahan"];
+        "nama_objek", "kategori", "latitude", "longitude", "link_lokasi", "potensi", "kondisi", "permasalahan",
+        "kondisi_jalan", "akses_kendaraan", "jarak_kecamatan", "fasilitas",
+        "jam_operasional", "tiket_masuk", "pengelola", "kontak_pengelola",
+        "keunikan", "kendala_utama", "rencana_pengembangan"];
     const escapeCsv = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
 
     const csv = [cols.join(",")].concat(
