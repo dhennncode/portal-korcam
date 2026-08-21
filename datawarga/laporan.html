@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Laporan Data Rumah Warga — Kecamatan Kedewan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared/css/design-system.css">
+    <style>
+        /* ==========================================================================
+           LAPORAN PDF — file berdiri sendiri, TIDAK menyentuh style.css/admin.css
+           datawarga yang sudah ada. Aman ditambahkan begitu saja ke folder datawarga/.
+           ========================================================================== */
+
+        body {
+            background: #6b6b6b;
+        }
+
+        /* ---------------- Toolbar (hanya tampil di layar, hilang saat cetak/PDF) ---------------- */
+        .toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--gradient-maroon);
+            color: #fff;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .25);
+        }
+
+        .toolbar__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 15px;
+            margin-right: auto;
+        }
+
+        .toolbar__title small {
+            display: block;
+            font-weight: 500;
+            font-size: 11.5px;
+            opacity: .8;
+        }
+
+        .toolbar .field {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .toolbar .field label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            opacity: .75;
+        }
+
+        .toolbar select {
+            padding: 8px 11px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 255, 255, .35);
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 13px;
+        }
+
+        .toolbar select option {
+            color: #1F1013;
+        }
+
+        .toolbar button,
+        .toolbar a.btn-link {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-print {
+            background: var(--gradient-gold);
+            color: #3A2A05;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, .35) !important;
+        }
+
+        .role-badge {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .3);
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        #load-status {
+            font-size: 12px;
+            color: #fff;
+            opacity: .85;
+            width: 100%;
+        }
+
+        /* ---------------- Kanvas kertas A4 (tampilan layar) ---------------- */
+        .paper-stack {
+            max-width: 1100px;
+            margin: 26px auto 60px;
+            padding: 0 14px;
+        }
+
+        .sheet {
+            background: #fff;
+            width: 100%;
+            min-height: 1123px;
+            margin: 0 0 26px;
+            padding: 56px 58px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+            position: relative;
+            color: var(--ink-900);
+        }
+
+        .sheet--wide {
+            min-height: 0;
+        }
+
+        /* ---------------- Cover ---------------- */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 1010px;
+        }
+
+        .cover__logo {
+            width: 118px;
+            height: 118px;
+            object-fit: contain;
+            margin-bottom: 22px;
+        }
+
+        .cover__eyebrow {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 12.5px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            color: var(--maroon-700);
+            margin: 0 0 14px;
+        }
+
+        .cover__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 32px;
+            line-height: 1.2;
+            color: var(--maroon-900);
+            margin: 0 0 14px;
+            max-width: 620px;
+        }
+
+        .cover__sub {
+            font-size: 15px;
+            color: var(--ink-600);
+            max-width: 480px;
+            margin: 0 0 34px;
+            line-height: 1.6;
+        }
+
+        .cover__rule {
+            width: 90px;
+            height: 4px;
+            border-radius: 4px;
+            background: var(--gradient-gold);
+            margin: 0 0 34px;
+        }
+
+        .cover__meta {
+            display: flex;
+            gap: 34px;
+            margin-top: 10px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            width: 100%;
+            max-width: 480px;
+            justify-content: center;
+        }
+
+        .cover__meta div {
+            text-align: center;
+        }
+
+        .cover__meta dt {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--ink-400);
+            margin-bottom: 4px;
+        }
+
+        .cover__meta dd {
+            margin: 0;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--maroon-900);
+        }
+
+        .cover__footer {
+            position: absolute;
+            bottom: 46px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--ink-400);
+        }
+
+        /* ---------------- Header/footer halaman isi ---------------- */
+        .sheet__kop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding-bottom: 14px;
+            margin-bottom: 26px;
+            border-bottom: 2px solid var(--maroon-800);
+        }
+
+        .sheet__kop-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sheet__kop-left img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+        }
+
+        .sheet__kop-left b {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--maroon-900);
+            display: block;
+        }
+
+        .sheet__kop-left span {
+            font-size: 10.5px;
+            color: var(--ink-400);
+        }
+
+        .sheet__kop-right {
+            font-size: 10.5px;
+            color: var(--ink-400);
+            text-align: right;
+        }
+
+        .sheet__foot {
+            margin-top: 24px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--ink-400);
+        }
+
+        .sheet:not(.sheet--wide) .sheet__foot {
+            position: absolute;
+            bottom: 24px;
+            left: 58px;
+            right: 58px;
+            margin-top: 0;
+        }
+
+        .sheet h2.section-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--maroon-900);
+            margin: 0 0 4px;
+        }
+
+        .section-desc {
+            font-size: 12.5px;
+            color: var(--ink-400);
+            margin: 0 0 22px;
+        }
+
+        /* ---------------- Ringkasan / statistik ---------------- */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .stat-row--narrow {
+            grid-template-columns: repeat(4, 1fr);
+            margin-bottom: 26px;
+        }
+
+        .stat-row--narrow .stat-box:not(:first-child) {
+            visibility: hidden;
+        }
+
+        .stat-box {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            text-align: center;
+            background: var(--paper-50);
+        }
+
+        .stat-box b {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 22px;
+            color: var(--maroon-800);
+        }
+
+        .stat-box span {
+            font-size: 10px;
+            color: var(--ink-400);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        table.rekap {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 22px;
+            font-size: 12.5px;
+        }
+
+        table.rekap th,
+        table.rekap td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table.rekap th {
+            background: var(--maroon-100);
+            color: var(--maroon-900);
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        table.rekap td.num,
+        table.rekap th.num {
+            text-align: right;
+            width: 90px;
+        }
+
+        table.rekap tr:last-child td {
+            font-weight: 800;
+            border-top: 2px solid var(--maroon-800);
+            border-bottom: none;
+        }
+
+        /* ---------------- Blok per desa (tabel data rumah tangga) ---------------- */
+        .desa-heading {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            background: var(--gradient-maroon-soft);
+            padding: 9px 16px;
+            border-radius: 10px;
+            margin: 0 0 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .desa-heading span.count {
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .18);
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        table.data-table-print {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10.5px;
+        }
+
+        table.data-table-print th,
+        table.data-table-print td {
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        table.data-table-print th {
+            background: var(--maroon-100);
+            color: var(--maroon-900);
+            font-weight: 700;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+        }
+
+        table.data-table-print td.num,
+        table.data-table-print th.num {
+            text-align: center;
+            width: 40px;
+        }
+
+        table.data-table-print tbody tr:nth-child(even) {
+            background: var(--paper-50);
+        }
+
+        .chip-flag,
+        .chip-ok {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+            margin: 1px 3px 1px 0;
+            white-space: nowrap;
+        }
+
+        .chip-flag {
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid var(--error-border);
+        }
+
+        .chip-ok {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success-border);
+        }
+
+        .chip-status {
+            display: inline-block;
+            font-size: 9.5px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .chip-status--menunggu {
+            background: var(--gold-100);
+            color: var(--gold-700);
+            border: 1px solid var(--gold-300);
+        }
+
+        .chip-status--terverifikasi {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success-border);
+        }
+
+        .chip-status--ditolak {
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid var(--error-border);
+        }
+
+        #report-root {
+            display: none;
+        }
+
+        #report-root.ready {
+            display: block;
+        }
+
+        #empty-state {
+            text-align: center;
+            color: #fff;
+            padding: 60px 20px;
+            display: none;
+        }
+
+        /* ---------------- Gerbang saat belum login ---------------- */
+        .gate-shell {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(1200px 600px at 50% -10%, var(--maroon-600) 0%, var(--maroon-900) 55%, #1F0509 100%);
+        }
+
+        .gate-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pop);
+            padding: 32px 26px;
+            text-align: center;
+        }
+
+        .gate-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            margin: 0 auto 12px;
+            display: block;
+        }
+
+        .gate-card h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 19px;
+            color: var(--maroon-900);
+            margin: 0 0 8px;
+        }
+
+        .gate-card p {
+            font-size: 13.5px;
+            color: var(--ink-600);
+            margin: 0 0 22px;
+            line-height: 1.6;
+        }
+
+        .gate-card a.btn-primary {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            background: var(--gradient-maroon);
+            box-sizing: border-box;
+        }
+
+        /* ---------------- Cetak / Simpan sebagai PDF ---------------- */
+        @media print {
+            .toolbar {
+                display: none !important;
+            }
+
+            body {
+                background: #fff;
+            }
+
+            .paper-stack {
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .sheet {
+                box-shadow: none;
+                margin: 0;
+                min-height: 0;
+                page-break-after: always;
+                width: auto;
+                padding: 14mm 16mm;
+            }
+
+            .sheet:last-child {
+                page-break-after: auto;
+            }
+
+            .cover {
+                min-height: 240mm;
+            }
+
+            table.data-table-print thead {
+                display: table-header-group;
+            }
+
+            table.data-table-print tr {
+                page-break-inside: avoid;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gate-shell" id="gate-shell" style="display:none;">
+        <div class="gate-card">
+            <img src="../shared/img/logo-korcam.png" alt="Logo Korcam KKM IKIP PGRI Bojonegoro">
+            <h1>Perlu Masuk Sebagai Admin</h1>
+            <p>Laporan ini khusus untuk tim internal. Silakan masuk lewat dashboard admin terlebih dahulu, lalu buka
+                kembali halaman ini.</p>
+            <a class="btn-primary" href="admin.html">Ke Halaman Masuk Admin</a>
+        </div>
+    </div>
+
+    <div id="laporan-shell" style="display:none;">
+        <div class="toolbar">
+            <div class="toolbar__title">Laporan Data Rumah Warga
+                <small>Pilih cakupan laporan, lalu unduh sebagai PDF</small>
+            </div>
+            <span class="role-badge" id="role-badge"></span>
+            <div class="field">
+                <label for="filter-desa">Desa</label>
+                <select id="filter-desa"></select>
+            </div>
+            <div class="field">
+                <label for="filter-status">Status</label>
+                <select id="filter-status">
+                    <option value="">Semua Status</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="terverifikasi">Terverifikasi</option>
+                    <option value="ditolak">Ditolak</option>
+                </select>
+            </div>
+            <a class="btn-link btn-back" href="admin.html">&larr; Kembali</a>
+            <button class="btn-print" id="print-btn">&#128190; Unduh sebagai PDF</button>
+            <p id="load-status">Memuat data&hellip;</p>
+        </div>
+
+        <div class="paper-stack">
+            <div id="report-root"></div>
+            <p id="empty-state">Belum ada data untuk cakupan yang dipilih.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="laporan.js"></script>
+</body>
+
+</html>

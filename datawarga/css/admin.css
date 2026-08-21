@@ -207,6 +207,28 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
 }
 .btn-download:hover { background: var(--navy-500); color: #fff; }
 
+/* Tombol "Unduh PDF" di filter bar — dipasangkan dengan tombol Ekspor Excel */
+.btn-gold {
+  font: inherit;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--gradient-gold);
+  color: #3A2A05;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -10px rgba(201, 162, 39, .6);
+}
+.btn-gold:hover { filter: brightness(0.96); }
+
 .modal-photos { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .role-tag {
