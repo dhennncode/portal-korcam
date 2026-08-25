@@ -27,6 +27,15 @@ const btnVerifikasi = document.getElementById("btn-verifikasi");
 const btnTolak = document.getElementById("btn-tolak");
 const btnHapus = document.getElementById("btn-hapus");
 
+// ---- Verifikasi massal (BARU) ----
+const selectAllCheckbox = document.getElementById("select-all-checkbox");
+const bulkBar = document.getElementById("bulk-bar");
+const bulkCount = document.getElementById("bulk-count");
+const bulkVerifikasiBtn = document.getElementById("bulk-verifikasi-btn");
+const bulkTolakBtn = document.getElementById("bulk-tolak-btn");
+const bulkClearBtn = document.getElementById("bulk-clear-btn");
+let selectedIds = new Set();
+
 let currentRows = [];
 let filteredRows = [];
 let activeRowId = null;
@@ -442,6 +451,7 @@ async function loadData() {
             Number(profilAdmin.desa_id)
         );
 
+    selectedIds.clear();
     renderStats(currentRows);
     renderDesaSummary(currentRows);
     applyFiltersAndRender();
@@ -640,6 +650,7 @@ function applyFiltersAndRender() {
 
   filteredRows = filtered;
 
+  selectedIds.clear();
   renderTable(filtered);
 }
 
@@ -690,6 +701,9 @@ function statusBadge(status) {
 
 function renderTable(rows) {
   tableBody.innerHTML = "";
+  selectAllCheckbox.checked = false;
+  selectAllCheckbox.indeterminate = false;
+  updateBulkBar();
 
   if (rows.length === 0) {
     tableEmpty.hidden = false;
@@ -721,6 +735,10 @@ function renderTable(rows) {
         : "-";
 
     tr.innerHTML = `
+      <td class="col-check">
+        <input type="checkbox" class="row-check" data-id="${row.id}">
+      </td>
+
       <td>
         <span class="badge badge-desa">
           ${namaDesa(row.desa_id)}
@@ -833,7 +851,115 @@ function renderTable(rows) {
         }
       );
     });
+
+  tableBody
+    .querySelectorAll(".row-check")
+    .forEach((cb) => {
+      cb.addEventListener("change", () => {
+        toggleRowSelection(cb.dataset.id, cb.checked);
+      });
+    });
 }
+
+
+// ================= VERIFIKASI MASSAL (BARU) =================
+
+function toggleRowSelection(id, checked) {
+  if (checked) {
+    selectedIds.add(String(id));
+  } else {
+    selectedIds.delete(String(id));
+  }
+
+  const tr = tableBody.querySelector(`.row-check[data-id="${id}"]`)?.closest("tr");
+  if (tr) tr.classList.toggle("row-selected", checked);
+
+  const visibleIds = Array.from(tableBody.querySelectorAll(".row-check")).map((el) => el.dataset.id);
+  const selectedVisible = visibleIds.filter((vid) => selectedIds.has(vid));
+  selectAllCheckbox.checked = visibleIds.length > 0 && selectedVisible.length === visibleIds.length;
+  selectAllCheckbox.indeterminate = selectedVisible.length > 0 && selectedVisible.length < visibleIds.length;
+
+  updateBulkBar();
+}
+
+function updateBulkBar() {
+  const n = selectedIds.size;
+  bulkCount.textContent = n;
+  bulkBar.hidden = n === 0;
+}
+
+selectAllCheckbox.addEventListener("change", () => {
+  const checked = selectAllCheckbox.checked;
+  selectAllCheckbox.indeterminate = false;
+
+  tableBody.querySelectorAll(".row-check").forEach((cb) => {
+    cb.checked = checked;
+    cb.closest("tr")?.classList.toggle("row-selected", checked);
+
+    if (checked) {
+      selectedIds.add(cb.dataset.id);
+    } else {
+      selectedIds.delete(cb.dataset.id);
+    }
+  });
+
+  updateBulkBar();
+});
+
+bulkClearBtn.addEventListener("click", () => {
+  selectedIds.clear();
+  selectAllCheckbox.checked = false;
+  selectAllCheckbox.indeterminate = false;
+  tableBody.querySelectorAll(".row-check").forEach((cb) => {
+    cb.checked = false;
+    cb.closest("tr")?.classList.remove("row-selected");
+  });
+  updateBulkBar();
+});
+
+async function bulkUpdateStatus(newStatus) {
+  const ids = Array.from(selectedIds);
+  if (ids.length === 0) return;
+
+  const label = newStatus === "terverifikasi" ? "memverifikasi" : "menolak";
+  if (!confirm(`Yakin ${label} ${ids.length} data terpilih sekaligus?`)) return;
+
+  const btn = newStatus === "terverifikasi" ? bulkVerifikasiBtn : bulkTolakBtn;
+  const otherBtn = newStatus === "terverifikasi" ? bulkTolakBtn : bulkVerifikasiBtn;
+  const oldText = btn.textContent;
+
+  btn.disabled = true;
+  otherBtn.disabled = true;
+  bulkClearBtn.disabled = true;
+  btn.textContent = "Memproses...";
+
+  try {
+    const { error } = await supabaseClient
+      .from(TABLE_SURVEY)
+      .update({ status_verifikasi: newStatus })
+      .in("id", ids);
+
+    if (error) {
+      console.error("Gagal verifikasi massal:", error);
+      alert(`Gagal memproses ${ids.length} data: ${error.message}`);
+      return;
+    }
+
+    selectedIds.clear();
+    await loadData();
+  } catch (error) {
+    console.error("Error verifikasi massal:", error);
+    alert(`Terjadi kesalahan: ${error.message || error}`);
+  } finally {
+    btn.disabled = false;
+    otherBtn.disabled = false;
+    bulkClearBtn.disabled = false;
+    btn.textContent = oldText;
+  }
+}
+
+bulkVerifikasiBtn.addEventListener("click", () => bulkUpdateStatus("terverifikasi"));
+bulkTolakBtn.addEventListener("click", () => bulkUpdateStatus("ditolak"));
 
 
 // ================= DOWNLOAD FOTO =================

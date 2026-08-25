@@ -1,9 +1,13 @@
 /* =========================================================
    FIX HTML HIDDEN
 ========================================================= */
-[hidden] { display: none !important; }
+[hidden] {
+  display: none !important;
+}
 
-.page-admin { padding-top: 8px; }
+.page-admin {
+  padding-top: 8px;
+}
 
 /* =========================================================
    LOGIN
@@ -29,8 +33,14 @@
   color: var(--maroon-900);
 }
 
-.login-card .hint-text { margin-bottom: 20px; }
-.login-card .field { margin-bottom: 14px; text-align: left; }
+.login-card .hint-text {
+  margin-bottom: 20px;
+}
+
+.login-card .field {
+  margin-bottom: 14px;
+  text-align: left;
+}
 
 /* =========================================================
    STATS
@@ -50,10 +60,22 @@
   padding: 15px 16px;
   box-shadow: var(--shadow-card);
 }
-.stat-card:nth-child(3) { border-left-color: var(--gold-500); }
-.stat-card:nth-child(4) { border-left-color: var(--gold-500); }
-.stat-card:nth-child(5) { border-left-color: var(--error); }
-.stat-card:nth-child(6) { border-left-color: var(--error); }
+
+.stat-card:nth-child(3) {
+  border-left-color: var(--gold-500);
+}
+
+.stat-card:nth-child(4) {
+  border-left-color: var(--gold-500);
+}
+
+.stat-card:nth-child(5) {
+  border-left-color: var(--error);
+}
+
+.stat-card:nth-child(6) {
+  border-left-color: var(--error);
+}
 
 .stat-value {
   display: block;
@@ -103,7 +125,11 @@
   padding: 9px 12px;
 }
 
-.desa-summary-table td.num { text-align: center; font-weight: 700; color: var(--ink-900); }
+.desa-summary-table td.num {
+  text-align: center;
+  font-weight: 700;
+  color: var(--ink-900);
+}
 
 /* =========================================================
    FILTER BAR
@@ -115,7 +141,10 @@
   align-items: flex-end;
 }
 
-.filter-bar .field { flex: 1; min-width: 150px; }
+.filter-bar .field {
+  flex: 1;
+  min-width: 150px;
+}
 
 .filter-bar button {
   flex-shrink: 0;
@@ -127,8 +156,14 @@
 /* =========================================================
    TABEL DATA
 ========================================================= */
-.table-card { padding: 0; overflow: hidden; }
-.table-scroll { overflow-x: auto; }
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
 
 table#data-table {
   width: 100%;
@@ -157,7 +192,10 @@ table#data-table thead th {
   font-weight: 700;
 }
 
-table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
+table#data-table tbody tr:hover {
+  background: var(--paper);
+  cursor: pointer;
+}
 
 .status-pill {
   display: inline-block;
@@ -170,13 +208,28 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   text-transform: uppercase;
 }
 
-.status-menunggu { background: var(--gold-100); color: var(--gold-600); }
-.status-terverifikasi { background: var(--success-bg); color: var(--success); }
-.status-ditolak { background: var(--error-bg); color: var(--error); }
+.status-menunggu {
+  background: var(--gold-100);
+  color: var(--gold-600);
+}
 
-.row-actions { display: flex; gap: 12px; }
+.status-terverifikasi {
+  background: var(--success-bg);
+  color: var(--success);
+}
 
-.btn-link, .btn-link-danger {
+.status-ditolak {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.row-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-link,
+.btn-link-danger {
   background: none;
   border: none;
   cursor: pointer;
@@ -186,10 +239,23 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   font-size: 12.5px;
   padding: 0;
 }
-.btn-link { color: var(--navy-700); }
-.btn-link:hover { color: var(--navy-900); text-decoration: underline; }
-.btn-link-danger { color: var(--error); }
-.btn-link-danger:hover { text-decoration: underline; }
+
+.btn-link {
+  color: var(--navy-700);
+}
+
+.btn-link:hover {
+  color: var(--navy-900);
+  text-decoration: underline;
+}
+
+.btn-link-danger {
+  color: var(--error);
+}
+
+.btn-link-danger:hover {
+  text-decoration: underline;
+}
 
 .btn-download {
   font: inherit;
@@ -205,7 +271,40 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   margin-right: 8px;
   margin-top: 6px;
 }
-.btn-download:hover { background: var(--navy-500); color: #fff; }
+
+.btn-download:hover {
+  background: var(--navy-500);
+  color: #fff;
+}
+
+/* Tombol "Ekspor Excel" di filter bar — box model DISAMAKAN dgn .btn-gold
+   di bawah ini (tinggi, padding, radius, font) supaya dua tombol selaras.
+   Sengaja dipisah dari .btn-primary karena .btn-primary di style.css
+   punya width:100% (dipakai utk tombol form login) yang akan merusak
+   tampilan kalau dipakai di filter-bar ini. */
+.btn-navy {
+  font: inherit;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius);
+  border: none;
+  background: linear-gradient(135deg, var(--navy-700), var(--navy-800));
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px -10px rgba(30, 64, 175, .6);
+}
+
+.btn-navy:hover {
+  background: linear-gradient(135deg, var(--navy-800), var(--navy-900));
+}
 
 /* Tombol "Unduh PDF" di filter bar — dipasangkan dengan tombol Ekspor Excel */
 .btn-gold {
@@ -227,9 +326,119 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   white-space: nowrap;
   box-shadow: 0 8px 20px -10px rgba(201, 162, 39, .6);
 }
-.btn-gold:hover { filter: brightness(0.96); }
 
-.modal-photos { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-gold:hover {
+  filter: brightness(0.96);
+}
+
+.modal-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* =========================================================
+   VERIFIKASI MASSAL (BARU)
+========================================================= */
+th.col-check,
+td.col-check {
+  width: 34px;
+  text-align: center;
+  padding-left: 12px !important;
+  padding-right: 4px !important;
+}
+
+#select-all-checkbox,
+.row-check {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--navy-700);
+}
+
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--navy-100);
+  border-bottom: 1px solid var(--border);
+}
+
+.bulk-bar__count {
+  font-size: 13.5px;
+  color: var(--ink-700);
+  font-weight: 600;
+}
+
+.bulk-bar__count b {
+  color: var(--maroon-900);
+  font-family: var(--font-display);
+  font-size: 15px;
+}
+
+.bulk-bar__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  font: inherit;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12.5px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.btn-sm--ok {
+  background: var(--success);
+  color: #fff;
+}
+
+.btn-sm--ok:hover {
+  filter: brightness(0.94);
+}
+
+.btn-sm--danger {
+  background: #fff;
+  color: var(--error);
+  border: 1.5px solid var(--error-border);
+}
+
+.btn-sm--danger:hover {
+  background: var(--error-bg);
+}
+
+.btn-sm--ghost {
+  background: #fff;
+  color: var(--ink-600);
+  border: 1.5px solid var(--border);
+}
+
+.btn-sm--ghost:hover {
+  border-color: var(--navy-700);
+  color: var(--navy-700);
+}
+
+.btn-sm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+table#data-table tbody tr.row-selected {
+  background: var(--gold-100);
+}
 
 .role-tag {
   display: inline-block;
@@ -245,7 +454,11 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   margin-left: 10px;
 }
 
-#table-empty { padding: 34px; text-align: center; font-family: var(--font-body); }
+#table-empty {
+  padding: 34px;
+  text-align: center;
+  font-family: var(--font-body);
+}
 
 /* =========================================================
    MODAL DETAIL
@@ -261,7 +474,10 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   z-index: 50;
   padding: 20px;
 }
-.modal-overlay[hidden] { display: none !important; }
+
+.modal-overlay[hidden] {
+  display: none !important;
+}
 
 .modal-box {
   background: var(--white);
@@ -287,7 +503,8 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   position: absolute;
   top: 16px;
   right: 18px;
-  width: 30px; height: 30px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   background: var(--paper);
@@ -296,7 +513,11 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   cursor: pointer;
   color: var(--ink-600);
 }
-.modal-close:hover { background: var(--navy-100); color: var(--navy-700); }
+
+.modal-close:hover {
+  background: var(--navy-100);
+  color: var(--navy-700);
+}
 
 .modal-content {
   display: grid;
@@ -307,7 +528,9 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   font-family: var(--font-body);
 }
 
-.modal-content .full { grid-column: 1 / -1; }
+.modal-content .full {
+  grid-column: 1 / -1;
+}
 
 .modal-content dt {
   color: var(--ink-600);
@@ -319,7 +542,10 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   margin-bottom: 3px;
 }
 
-.modal-content dd { margin: 0 0 10px; color: var(--ink-900); }
+.modal-content dd {
+  margin: 0 0 10px;
+  color: var(--ink-900);
+}
 
 .modal-content img {
   max-width: 100%;
@@ -327,18 +553,36 @@ table#data-table tbody tr:hover { background: var(--paper); cursor: pointer; }
   border: 1px solid var(--border);
 }
 
-.modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.modal-actions button { flex: 1; min-width: 120px; }
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modal-actions button {
+  flex: 1;
+  min-width: 120px;
+}
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 @media (max-width: 900px) {
-  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 560px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .modal-content { grid-template-columns: 1fr; }
-  .login-wrap { padding: 30px 0; }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .login-wrap {
+    padding: 30px 0;
+  }
 }

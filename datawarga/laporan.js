@@ -29,6 +29,7 @@ const STATE = {
     profilAdmin: null,
     filterDesa: "",
     filterStatus: "",
+    fotoRumahMap: {}, // path storage -> signed URL (BARU)
 };
 
 /* ---------------------------------------------------------------------------
@@ -161,11 +162,43 @@ async function loadData() {
                 ? data || []
                 : (data || []).filter((r) => Number(r.desa_id) === Number(STATE.profilAdmin.desa_id));
 
+        statusEl.textContent = `${STATE.rows.length} data dimuat. Memuat foto rumah\u2026`;
+        await muatFotoRumah();
         statusEl.textContent = `${STATE.rows.length} data dimuat.`;
     } catch (err) {
         statusEl.textContent = "Gagal memuat data: " + err.message;
     }
     render();
+}
+
+/* ---------------------------------------------------------------------------
+   Foto rumah (BARU) — bucket Storage bersifat privat, jadi tiap path foto
+   perlu ditukar jadi signed URL sebelum bisa ditampilkan sebagai <img>.
+   Dilakukan satu kali secara batch (bukan per-baris) supaya cepat.
+--------------------------------------------------------------------------- */
+async function muatFotoRumah() {
+    const paths = [...new Set(STATE.rows.map((r) => r.foto_rumah_url).filter(Boolean))];
+    if (!paths.length) return;
+
+    try {
+        const { data, error } = await supabaseClient
+            .storage
+            .from(BUCKET_NAME)
+            .createSignedUrls(paths, 60 * 30); // berlaku 30 menit, cukup utk lihat & cetak
+
+        if (error) {
+            console.error("Gagal membuat signed URL foto rumah:", error);
+            return;
+        }
+
+        (data || []).forEach((item) => {
+            if (item.signedUrl && !item.error) {
+                STATE.fotoRumahMap[item.path] = item.signedUrl;
+            }
+        });
+    } catch (err) {
+        console.error("Error memuat foto rumah:", err);
+    }
 }
 
 function filteredRowsLaporan() {
@@ -203,16 +236,21 @@ function render() {
 function coverPage(rows, tanggal, cakupan) {
     return `
     <section class="sheet cover">
-        <img class="cover__logo" src="../shared/img/logo-korcam.png" alt="Logo Korcam KKM IKIP PGRI Bojonegoro">
-        <p class="cover__eyebrow">KKM &middot; IKIP PGRI Bojonegoro &middot; Koordinator Kecamatan</p>
-        <h1 class="cover__title">Laporan Data Rumah Warga Kecamatan Kedewan</h1>
-        <p class="cover__sub">Rekapitulasi hasil pendataan kondisi rumah tangga warga sebagai basis Program Kerja KKM di seluruh desa Kecamatan Kedewan, Kabupaten Bojonegoro.</p>
-        <div class="cover__rule"></div>
-        <dl class="cover__meta">
-            <div><dt>Cakupan</dt><dd>${escapeHtml(cakupan)}</dd></div>
-            <div><dt>Total Data</dt><dd>${rows.length}</dd></div>
-            <div><dt>Tanggal Cetak</dt><dd>${tanggal}</dd></div>
-        </dl>
+        <div class="cover__text">
+            <img class="cover__logo" src="../shared/img/logo-korcam.png" alt="Logo Korcam KKM IKIP PGRI Bojonegoro">
+            <p class="cover__eyebrow">KKM &middot; IKIP PGRI Bojonegoro &middot; Koordinator Kecamatan</p>
+            <h1 class="cover__title">Laporan Data Rumah Warga<br>Kecamatan Kedewan</h1>
+            <p class="cover__sub">Rekapitulasi hasil pendataan kondisi rumah tangga warga sebagai basis Program Kerja KKM di seluruh desa Kecamatan Kedewan, Kabupaten Bojonegoro.</p>
+            <div class="cover__rule"></div>
+            <dl class="cover__meta">
+                <div><dt>Cakupan</dt><dd>${escapeHtml(cakupan)}</dd></div>
+                <div><dt>Total Data</dt><dd>${rows.length}</dd></div>
+                <div><dt>Tanggal Cetak</dt><dd>${tanggal}</dd></div>
+            </dl>
+        </div>
+        <div class="cover__visual">
+            <img src="assets/ilustrasi-rumah.svg" alt="Ilustrasi rumah">
+        </div>
         <p class="cover__footer">Dokumen ini dihasilkan otomatis dari Portal KKM Kedewan &middot; Dokumen Internal &mdash; Bersifat Rahasia</p>
     </section>`;
 }
@@ -259,7 +297,7 @@ function ringkasanPage(rows, desaSet) {
         .join("");
 
     return `
-    <section class="sheet">
+    <section class="sheet sheet--wide">
         ${kop()}
         <h2 class="section-title">Ringkasan Eksekutif</h2>
         <p class="section-desc">Gambaran umum hasil pendataan rumah tangga warga se-Kecamatan Kedewan.</p>
@@ -269,29 +307,27 @@ function ringkasanPage(rows, desaSet) {
             <div class="stat-box"><b>${desaSet.length}</b><span>Desa Tercakup</span></div>
             <div class="stat-box"><b>${menunggu}</b><span>Menunggu</span></div>
             <div class="stat-box"><b>${terverifikasi}</b><span>Terverifikasi</span></div>
-        </div>
-        <div class="stat-row">
             <div class="stat-box"><b>${ditolak}</b><span>Ditolak</span></div>
             <div class="stat-box"><b>${anakTidakSekolah}</b><span>Anak Tidak Sekolah</span></div>
             <div class="stat-box"><b>${anakInginKuliah}</b><span>Anak Ingin Kuliah</span></div>
             <div class="stat-box"><b>${lantaiTanah}</b><span>Lantai Tanah</span></div>
-        </div>
-        <div class="stat-row stat-row--narrow">
             <div class="stat-box"><b>${belumListrik}</b><span>Belum Ada Listrik</span></div>
         </div>
 
-        <table class="rekap">
-            <thead><tr><th>Desa</th><th class="num">Total Data</th><th class="num">Menunggu</th><th class="num">Terverifikasi</th></tr></thead>
-            <tbody>
-                ${desaRowsHtml}
-                <tr><td>Total</td><td class="num">${rows.length}</td><td class="num">${menunggu}</td><td class="num">${terverifikasi}</td></tr>
-            </tbody>
-        </table>
+        <div class="rekap-row">
+            <table class="rekap">
+                <thead><tr><th>Desa</th><th class="num">Total Data</th><th class="num">Menunggu</th><th class="num">Terverifikasi</th></tr></thead>
+                <tbody>
+                    ${desaRowsHtml}
+                    <tr><td>Total</td><td class="num">${rows.length}</td><td class="num">${menunggu}</td><td class="num">${terverifikasi}</td></tr>
+                </tbody>
+            </table>
 
-        <table class="rekap">
-            <thead><tr><th>Status Desil</th><th class="num">Jumlah KK</th></tr></thead>
-            <tbody>${desilRowsHtml}</tbody>
-        </table>
+            <table class="rekap">
+                <thead><tr><th>Status Desil</th><th class="num">Jumlah KK</th></tr></thead>
+                <tbody>${desilRowsHtml}</tbody>
+            </table>
+        </div>
 
         ${foot()}
     </section>`;
@@ -326,9 +362,15 @@ function dataTable(items) {
                 ? indikator.map((t) => `<span class="chip-flag">${escapeHtml(t)}</span>`).join("")
                 : `<span class="chip-ok">Tidak ada indikator</span>`;
 
+            const fotoUrl = r.foto_rumah_url ? STATE.fotoRumahMap[r.foto_rumah_url] : null;
+            const fotoCell = fotoUrl
+                ? `<img class="foto-thumb" src="${escapeHtml(fotoUrl)}" alt="Foto rumah ${escapeHtml(r.nama_kepala_keluarga || "")}">`
+                : `<div class="foto-none" title="Belum ada foto rumah"><img src="assets/ilustrasi-rumah.svg" alt=""></div>`;
+
             return `
             <tr>
                 <td class="num">${i + 1}</td>
+                <td class="col-foto">${fotoCell}</td>
                 <td>${escapeHtml(r.nama_kepala_keluarga || "-")}</td>
                 <td>${escapeHtml(labelKelompokLaporan(r.kelompok_id))}</td>
                 <td class="num">${escapeHtml(r.rt || "-")}/${escapeHtml(r.rw || "-")}</td>
@@ -347,6 +389,7 @@ function dataTable(items) {
         <thead>
             <tr>
                 <th class="num">No</th>
+                <th class="col-foto">Foto Rumah</th>
                 <th>Nama Kepala Keluarga</th>
                 <th>Kelompok</th>
                 <th class="num">RT/RW</th>
@@ -366,7 +409,8 @@ function kop() {
     return `
     <div class="sheet__kop">
         <div class="sheet__kop-left">
-            <img src="../shared/img/logo-korcam.png" alt="">
+            <img class="kop-logo" src="../shared/img/logo-korcam.png" alt="">
+            <img class="kop-rumah" src="assets/ilustrasi-rumah.svg" alt="">
             <div><b>Laporan Data Rumah Warga Kedewan</b><span>KKM IKIP PGRI Bojonegoro</span></div>
         </div>
         <div class="sheet__kop-right">Dicetak ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}</div>

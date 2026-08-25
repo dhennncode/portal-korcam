@@ -408,8 +408,8 @@
         </button>
 
 
-        <button type="button" id="export-btn" class="btn-primary">
-          Ekspor Excel
+        <button type="button" id="export-btn" class="btn-navy">
+          &#128202; Ekspor Excel
         </button>
 
         <a id="pdf-btn" class="btn-gold" href="laporan.html" target="_blank" rel="noopener">
@@ -425,6 +425,20 @@
 
       <div class="card table-card">
 
+        <!-- ===============================================
+             BAR AKSI VERIFIKASI MASSAL (BARU)
+             Muncul otomatis begitu ada baris yang dicentang.
+        ================================================ -->
+        <div class="bulk-bar" id="bulk-bar" hidden>
+          <span class="bulk-bar__count"><b id="bulk-count">0</b> data dipilih</span>
+          <div class="bulk-bar__actions">
+            <button type="button" id="bulk-verifikasi-btn" class="btn-sm btn-sm--ok">&#10003; Verifikasi
+              Terpilih</button>
+            <button type="button" id="bulk-tolak-btn" class="btn-sm btn-sm--danger">&#10005; Tolak Terpilih</button>
+            <button type="button" id="bulk-clear-btn" class="btn-sm btn-sm--ghost">Batalkan Pilihan</button>
+          </div>
+        </div>
+
         <div class="table-scroll">
 
           <table id="data-table">
@@ -432,6 +446,10 @@
             <thead>
 
               <tr>
+
+                <th class="col-check">
+                  <input type="checkbox" id="select-all-checkbox" title="Pilih semua baris yang tampil">
+                </th>
 
                 <th>
                   Desa

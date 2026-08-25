@@ -119,9 +119,9 @@
             width: 100%;
         }
 
-        /* ---------------- Kanvas kertas A4 (tampilan layar) ---------------- */
+        /* ---------------- Kanvas kertas A4 LANDSCAPE (tampilan layar) ---------------- */
         .paper-stack {
-            max-width: 1100px;
+            max-width: 1180px;
             margin: 26px auto 60px;
             padding: 0 14px;
         }
@@ -129,88 +129,110 @@
         .sheet {
             background: #fff;
             width: 100%;
-            min-height: 1123px;
+            aspect-ratio: 297 / 210;
+            /* rasio A4 landscape */
             margin: 0 0 26px;
-            padding: 56px 58px;
+            padding: 34px 46px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
             position: relative;
             color: var(--ink-900);
+            box-sizing: border-box;
         }
 
         .sheet--wide {
-            min-height: 0;
+            aspect-ratio: auto;
+            min-height: 640px;
         }
 
-        /* ---------------- Cover ---------------- */
+        /* ---------------- Cover (2 kolom, landscape) ---------------- */
         .cover {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            align-items: center;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .cover__text {
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .cover__visual {
+            display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            min-height: 1010px;
+            height: 100%;
+            position: relative;
+        }
+
+        .cover__visual img {
+            width: 100%;
+            max-width: 340px;
+            height: auto;
+            object-fit: contain;
         }
 
         .cover__logo {
-            width: 118px;
-            height: 118px;
+            width: 64px;
+            height: 64px;
             object-fit: contain;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .cover__eyebrow {
             font-family: var(--font-body);
             font-weight: 700;
-            font-size: 12.5px;
+            font-size: 11.5px;
             letter-spacing: .16em;
             text-transform: uppercase;
             color: var(--maroon-700);
-            margin: 0 0 14px;
+            margin: 0 0 12px;
         }
 
         .cover__title {
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 32px;
+            font-size: 30px;
             line-height: 1.2;
             color: var(--maroon-900);
-            margin: 0 0 14px;
-            max-width: 620px;
+            margin: 0 0 12px;
         }
 
         .cover__sub {
-            font-size: 15px;
+            font-size: 13.5px;
             color: var(--ink-600);
-            max-width: 480px;
-            margin: 0 0 34px;
+            max-width: 420px;
+            margin: 0 0 22px;
             line-height: 1.6;
         }
 
         .cover__rule {
-            width: 90px;
+            width: 76px;
             height: 4px;
             border-radius: 4px;
             background: var(--gradient-gold);
-            margin: 0 0 34px;
+            margin: 0 0 22px;
         }
 
         .cover__meta {
             display: flex;
-            gap: 34px;
-            margin-top: 10px;
-            padding-top: 24px;
+            gap: 26px;
+            margin-top: 4px;
+            padding-top: 18px;
             border-top: 1px solid var(--border);
             width: 100%;
-            max-width: 480px;
-            justify-content: center;
+            max-width: 460px;
         }
 
         .cover__meta div {
-            text-align: center;
+            text-align: left;
         }
 
         .cover__meta dt {
-            font-size: 10.5px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: .05em;
@@ -222,18 +244,20 @@
             margin: 0;
             font-family: var(--font-display);
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             color: var(--maroon-900);
         }
 
         .cover__footer {
             position: absolute;
-            bottom: 46px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 11.5px;
+            bottom: 22px;
+            left: 46px;
+            right: 46px;
+            text-align: left;
+            font-size: 10.5px;
             color: var(--ink-400);
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
         }
 
         /* ---------------- Header/footer halaman isi ---------------- */
@@ -242,8 +266,8 @@
             align-items: center;
             justify-content: space-between;
             gap: 14px;
-            padding-bottom: 14px;
-            margin-bottom: 26px;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
             border-bottom: 2px solid var(--maroon-800);
         }
 
@@ -253,22 +277,29 @@
             gap: 10px;
         }
 
-        .sheet__kop-left img {
-            width: 34px;
-            height: 34px;
+        .sheet__kop-left img.kop-logo {
+            width: 30px;
+            height: 30px;
             object-fit: contain;
+        }
+
+        .sheet__kop-left img.kop-rumah {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            opacity: .85;
         }
 
         .sheet__kop-left b {
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12.5px;
             color: var(--maroon-900);
             display: block;
         }
 
         .sheet__kop-left span {
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--ink-400);
         }
 
@@ -290,9 +321,9 @@
 
         .sheet:not(.sheet--wide) .sheet__foot {
             position: absolute;
-            bottom: 24px;
-            left: 58px;
-            right: 58px;
+            bottom: 20px;
+            left: 46px;
+            right: 46px;
             margin-top: 0;
         }
 
@@ -313,24 +344,15 @@
         /* ---------------- Ringkasan / statistik ---------------- */
         .stat-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .stat-row--narrow {
-            grid-template-columns: repeat(4, 1fr);
-            margin-bottom: 26px;
-        }
-
-        .stat-row--narrow .stat-box:not(:first-child) {
-            visibility: hidden;
+            margin-bottom: 22px;
         }
 
         .stat-box {
             border: 1.5px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px 12px;
+            padding: 12px 10px;
             text-align: center;
             background: var(--paper-50);
         }
@@ -339,16 +361,23 @@
             display: block;
             font-family: var(--font-display);
             font-weight: 800;
-            font-size: 22px;
+            font-size: 20px;
             color: var(--maroon-800);
         }
 
         .stat-box span {
-            font-size: 10px;
+            font-size: 9.5px;
             color: var(--ink-400);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: .03em;
+        }
+
+        .rekap-row {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 20px;
+            align-items: start;
         }
 
         table.rekap {
@@ -412,13 +441,13 @@
         table.data-table-print {
             width: 100%;
             border-collapse: collapse;
-            font-size: 10.5px;
+            font-size: 11px;
         }
 
         table.data-table-print th,
         table.data-table-print td {
             text-align: left;
-            padding: 6px 8px;
+            padding: 7px 9px;
             border-bottom: 1px solid var(--border);
             vertical-align: top;
         }
@@ -490,6 +519,43 @@
             background: var(--error-bg);
             color: var(--error);
             border: 1px solid var(--error-border);
+        }
+
+        /* ---------------- Kolom Foto Rumah (BARU) ---------------- */
+        table.data-table-print th.col-foto,
+        table.data-table-print td.col-foto {
+            width: 122px;
+            text-align: center;
+            padding: 6px 8px;
+        }
+
+        .foto-thumb {
+            width: 112px;
+            height: 84px;
+            object-fit: cover;
+            border-radius: 7px;
+            border: 1.5px solid var(--border);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .foto-none {
+            width: 112px;
+            height: 84px;
+            border-radius: 7px;
+            border: 1.5px dashed var(--border);
+            background: var(--paper-50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .foto-none img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            opacity: .45;
         }
 
         #report-root {
@@ -564,7 +630,7 @@
             box-sizing: border-box;
         }
 
-        /* ---------------- Cetak / Simpan sebagai PDF ---------------- */
+        /* ---------------- Cetak / Simpan sebagai PDF — A4 LANDSCAPE ---------------- */
         @media print {
             .toolbar {
                 display: none !important;
@@ -583,10 +649,11 @@
             .sheet {
                 box-shadow: none;
                 margin: 0;
+                aspect-ratio: auto;
                 min-height: 0;
                 page-break-after: always;
                 width: auto;
-                padding: 14mm 16mm;
+                padding: 10mm 14mm 14mm;
             }
 
             .sheet:last-child {
@@ -594,7 +661,21 @@
             }
 
             .cover {
-                min-height: 240mm;
+                min-height: calc(210mm - 24mm);
+                /* tinggi A4 landscape dikurangi padding atas+bawah */
+            }
+
+            .sheet__foot {
+                position: absolute;
+                bottom: 6mm;
+                left: 14mm;
+                right: 14mm;
+            }
+
+            .cover__footer {
+                bottom: 8mm;
+                left: 14mm;
+                right: 14mm;
             }
 
             table.data-table-print thead {
@@ -604,10 +685,15 @@
             table.data-table-print tr {
                 page-break-inside: avoid;
             }
+
+            .obj-card,
+            .stat-box {
+                page-break-inside: avoid;
+            }
         }
 
         @page {
-            size: A4;
+            size: A4 landscape;
             margin: 0;
         }
     </style>
